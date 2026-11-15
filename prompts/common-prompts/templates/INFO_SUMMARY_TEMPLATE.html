@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>TICKET-123 信息汇总</title>
+<link rel="stylesheet" href="assets/summary.css">
+<script src="assets/summary.js"></script>
+</head>
+<body>
+<!--
+  INFO_SUMMARY_TEMPLATE.html
+  Copy this file into info-summary/, then replace the example content.
+  Styles and behaviour come only from info-summary/assets/summary.css + summary.js: shared files, exact copy of the same
+  paths on main of the Common repo common-user-preferences-hub. If they are missing in this repo, copy them first.
+  Do not add a <style> block or JS here; the only script allowed is the JSON block id="details".
+  Rules: prompts/common-prompts/rules/INFO_SUMMARY_HTML_RULES.md + HTML_PAGE_RULES.md
+  Five fixed blocks in order: 结论 → 主图 → 状态 → 时间线 → Q&A, sources in the footer. A section the Human asks for is its own block on top of the five (default place: between 时间线 and Q&A).
+  Status dots: ok = 完成 (green), warn = 待确认 (yellow), team = 要团队 (purple), wait = 待做 (hollow grey), risk = 先处理 (red).
+  Clickable blocks: give them data-k="key" and add the key to the JSON block id="details" at the bottom.
+  Searchable rows: add data-s.
+  Page table of contents: summary.js adds 目录 as the first nav item by itself, built from each section's <h2> and each figure title
+  (.eyebrow starting with 图 N). Do not write it by hand; just keep an <h2> in every section and 图 N titles on every figure.
+-->
+
+<div class="nav">
+  <div class="wrap">
+    <span class="brand">TICKET-123</span>
+    <nav class="links" id="links">
+      <a href="#how">主图</a>
+      <a href="#status">状态</a>
+      <a href="#timeline">时间线</a>
+      <a href="#qa">Q&amp;A</a>
+    </nav>
+    <input id="q" type="search" placeholder="搜索" aria-label="搜索" autocomplete="off">
+    <span class="count" id="count"></span>
+    <button class="menu" id="menu" aria-label="打开菜单" aria-expanded="false" aria-controls="links"><i></i><i></i><i></i></button>
+  </div>
+</div>
+
+<main>
+
+  <!-- 1. 结论 + 最多 4 个关键事实 -->
+  <header class="hero"><div class="wrap">
+    <p class="eyebrow">主题一句话 · 上一层：<a href="信息汇总-Summary-索引.html">总索引</a></p>
+    <h1 class="ty-hero">一句话结论。<br><span class="g">第二句补充。</span></h1>
+    <p class="lede ty-lede">一句话背景（见<a href="#">相关汇总</a>）。</p>
+    <div class="stats rv">
+      <div><p class="eyebrow">Ticket</p><p class="v ty-sub">TICKET-123</p></div>
+      <div><p class="eyebrow">时间</p><p class="v ty-sub">DD Mon</p></div>
+      <div><p class="eyebrow">状态</p><p class="v ty-sub">In progress</p></div>
+      <div><p class="eyebrow">关键 resource</p><p class="v ty-sub">resource-name</p></div>
+    </div>
+  </div></header>
+
+  <!-- 2. 主图（固定第 2 块）：形式从 HTML_PAGE_RULES.md 常用图形 13 种里按内容选，可以组合（组件图、分区架构图、流程图、时间线、进度条、柱状图、对比卡片…）。下面是分区架构图的例子 -->
+  <section id="how" class="on-grey">
+    <div class="wrap">
+      <div class="head rv">
+        <h2 class="ty-h2">架构和流程。</h2>
+        <p class="ty-sub g">点方块看细节。</p>
+      </div>
+      <div class="card arch rv">
+        <p class="eyebrow">图 1：架构 · 东西都在哪</p>
+        <p class="ty-card">一句话说清最关键的关系。<span class="g">补充一句。</span></p>
+        <div class="diagram">
+          <svg viewBox="0 0 1000 300" role="img" aria-label="架构图">
+            <defs>
+              <marker id="mb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1976d2"/></marker>
+              <marker id="mt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0d47a1"/></marker>
+            </defs>
+            <text class="zl" x="20" y="52">调用方</text>
+            <rect class="zone" x="300" y="20" width="680" height="260" rx="20"/>
+            <text class="zl" x="320" y="52">Subscription / 环境名</text>
+            <path class="ed b" d="M230,109 H336" marker-end="url(#mb)"/><text class="el" x="283" y="98" text-anchor="middle">写入</text>
+            <path class="ed t d" d="M230,219 H336" marker-end="url(#mt)"/><text class="el" x="283" y="208" text-anchor="middle">读取</text>
+            <g class="an k1" data-k="n1" tabindex="0" role="button"><rect x="20" y="72" width="210" height="74" rx="14"/><text class="tt" x="36" y="103">组件 A</text><text class="ts" x="36" y="128">一行说明</text></g>
+            <g class="an unk" data-k="n2" tabindex="0" role="button"><rect x="20" y="182" width="210" height="74" rx="14"/><text class="tt" x="36" y="213">组件 B</text><text class="ts" x="36" y="238">待查</text></g>
+            <g class="an k1" data-k="n3" tabindex="0" role="button"><rect x="340" y="72" width="420" height="74" rx="14"/><text class="tt" x="356" y="103">Resource 名</text><text class="ts" x="356" y="128">resource-id</text></g>
+            <g class="an k3" data-k="n4" tabindex="0" role="button"><rect x="340" y="182" width="420" height="74" rx="14"/><text class="tt" x="356" y="213">另一个 Resource</text><text class="ts" x="356" y="238">一行说明</text></g>
+            <g class="an chip" data-k="n5" tabindex="0" role="button"><rect x="780" y="92" width="180" height="36" rx="18"/><text x="796" y="116">例外 · 一句话</text></g>
+          </svg>
+        </div>
+        <div class="legend">
+          <span><i class="sw b"></i>类别 1</span>
+          <span><i class="sw t"></i>类别 2</span>
+          <span><i class="dot warn"></i>待查</span>
+          <span><i class="pillsw"></i>例外</span>
+        </div>
+        <div class="dt"><p class="hint">点上面的方块看名字、permission 和状态。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 状态：先处理的事、任务进度、我要做 / 等团队 -->
+  <section id="status" class="on-white">
+    <div class="wrap">
+      <div class="head rv">
+        <h2 class="ty-h2">现在的状态。</h2>
+        <p class="ty-sub g">一句话说清：下面几张卡片是什么、为什么放在这里、它们是什么关系。</p>
+      </div>
+      <div class="grid">
+        <div class="card full alert rv">
+          <span class="ty-lede">先处理</span>
+          <p>只放真正要先处理的一件事；没有就删掉这张卡。</p>
+        </div>
+
+        <div class="card rv">
+          <p class="eyebrow">任务名</p>
+          <p class="ty-big">本周上。</p>
+          <p class="lead ty-lede g">一句话现状。</p>
+          <div class="pills">
+            <span><i class="dot ok"></i>已完成的一步</span>
+            <span><i class="dot team"></i>等团队的一步</span>
+          </div>
+          <details class="more">
+            <summary>N 项检查：x 完成 · y 待确认</summary>
+            <ul class="items">
+              <li data-s><i class="dot ok"></i><div><b>检查项</b> <span class="sub">一句话说明</span></div></li>
+              <li data-s><i class="dot warn"></i><div><b>检查项</b> <span class="sub">待确认：一句话说明</span></div></li>
+            </ul>
+          </details>
+        </div>
+
+        <div class="card rv">
+          <p class="eyebrow">另一个任务（没有就删掉）</p>
+          <p class="ty-big">约 2～3 周后。</p>
+          <p class="lead ty-lede g">一句话现状。</p>
+          <div class="steps"><span>第一步</span><i>→</i><span>第二步</span><i>→</i><span>第三步</span></div>
+        </div>
+
+        <div class="card rv">
+          <p class="eyebrow">我要做</p>
+          <p class="ty-big">2 件。</p>
+          <ul class="items">
+            <li data-s><i class="dot warn"></i><div>要确认的事</div></li>
+            <li data-s><i class="dot wait"></i><div>要做的事</div></li>
+          </ul>
+        </div>
+
+        <div class="card rv">
+          <p class="eyebrow">等团队</p>
+          <p class="ty-big">1 件。</p>
+          <ul class="items">
+            <li data-s><i class="dot team"></i><div>等团队做的事</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="legend">
+        <span><i class="dot ok"></i>完成</span>
+        <span><i class="dot warn"></i>待确认</span>
+        <span><i class="dot team"></i>要团队</span>
+        <span><i class="dot wait"></i>待做</span>
+        <span><i class="dot risk"></i>先处理</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 时间线：已发生（实心）、现在（class="now"）、计划（class="fut"）。改 .tl 的 grid 列数和 ::before / ::after 的百分比，让实线到"现在"为止 -->
+  <section id="timeline" class="on-grey">
+    <div class="wrap">
+      <div class="head rv">
+        <h2 class="ty-h2">怎么走到今天。</h2>
+        <p class="ty-sub g">点任意一个时间点看细节。</p>
+      </div>
+      <div class="card rv">
+        <ol class="tl">
+          <li data-k="h1" tabindex="0" role="button"><span class="d">MM-DD</span><span class="p"></span><span class="t">发生了什么</span></li>
+          <li data-k="h2" tabindex="0" role="button"><span class="d">MM-DD</span><span class="p"></span><span class="t">发生了什么</span></li>
+          <li data-k="h3" tabindex="0" role="button"><span class="d">MM-DD</span><span class="p"></span><span class="t">发生了什么</span></li>
+          <li data-k="h4" tabindex="0" role="button"><span class="d">MM-DD</span><span class="p"></span><span class="t">发生了什么</span></li>
+          <li data-k="h5" tabindex="0" role="button"><span class="d">MM-DD</span><span class="p"></span><span class="t">发生了什么</span></li>
+          <li class="now" data-k="h6" tabindex="0" role="button"><span class="d">今天</span><span class="p"></span><span class="t">现在在做的</span></li>
+          <li class="fut" data-k="h7" tabindex="0" role="button"><span class="d">计划</span><span class="p"></span><span class="t">下一步</span></li>
+        </ol>
+        <div class="dt"><p class="hint">深蓝点是已经发生的，亮蓝点是现在，空心点是计划。</p></div>
+        <details class="more">
+          <summary>试过不行的路（没有就删掉）</summary>
+          <ul class="items">
+            <li data-s><i class="dot wait"></i><div><b>方案名</b> <span class="sub">为什么不行。</span></div></li>
+          </ul>
+        </details>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 5. Q&A：默认只显示问题 -->
+  <section id="qa" class="on-white">
+    <div class="wrap">
+      <div class="head rv">
+        <h2 class="ty-h2">Q&amp;A</h2>
+        <p class="ty-sub g">点问题看答案；上面的搜索也会过滤这里。</p>
+      </div>
+      <div class="faq rv" id="faq">
+        <details data-s><summary class="ty-lede">Human 会搜的问题？</summary><p>1～2 句答案，名字用 <code>code</code> 样式。</p></details>
+        <details data-s><summary class="ty-lede">另一个问题？</summary><p>1～2 句答案。</p></details>
+        <p class="empty hidden" id="empty">没找到，换个关键词试试。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 来源 -->
+<footer>
+  <div class="wrap">
+    最后更新 YYYY-MM-DD · 第一次创建 YYYY-MM-DD
+    <div class="src">
+      <a href="#">来源 1</a>
+      <a href="#">来源 2</a>
+    </div>
+  </div>
+</footer>
+
+<script type="application/json" id="details">
+{
+  "h1": ["MM-DD · 发生了什么", [["发生了什么", "一两句话。"]]],
+  "h2": ["MM-DD · 发生了什么", [["发生了什么", "一两句话。"]]],
+  "h3": ["MM-DD · 发生了什么", [["发生了什么", "一两句话。"]]],
+  "h4": ["MM-DD · 发生了什么", [["发生了什么", "一两句话。"]]],
+  "h5": ["MM-DD · 发生了什么", [["发生了什么", "一两句话。"]]],
+  "h6": ["今天 · 现在在做的", [["现状", "一两句话。"]]],
+  "h7": ["计划 · 下一步", [["计划", "一两句话。"]]],
+  "n1": ["组件 A", [["名字", "full-name"], ["Role", "Contributor（scope）"]]],
+  "n2": ["组件 B", [["Identity", "UNKNOWN，待查"]]],
+  "n3": ["Resource 名", [["ID", "resource-id"], ["所在位置", "Subscription / Resource Group"]]],
+  "n4": ["另一个 Resource", [["说明", "一两句话。"]]],
+  "n5": ["例外", [["名字", "原因"]]]
+}
+</script>
+
+</body>
+</html>

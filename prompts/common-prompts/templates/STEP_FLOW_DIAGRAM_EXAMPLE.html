@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>步骤流程图参考 信息汇总</title>
+<link rel="stylesheet" href="assets/summary.css">
+<script src="assets/summary.js"></script>
+</head>
+<body>
+<!--
+  STEP_FLOW_DIAGRAM_EXAMPLE.html
+  Reference for a step flow diagram (HTML_PAGE_RULES.md `先全貌，后细节` → `步骤流程画成两列`).
+  Based on the AZZU-3296 Sandpit test steps mockup the Human approved (2026-11-09); all names are made generic.
+  How it works:
+    - Plain HTML boxes, not SVG, so the page reflows when steps open or close, and phones need no sideways scroll.
+    - Two columns: the left column has one box per big step (.sf-big), top to bottom, joined by a line with an arrow;
+      each big step has its own grey group (.sf-group) of small steps on the right.
+    - Small steps are folded by default. Clicking a big step opens or closes its group; the 全部展开 button opens or
+      closes all groups; search opens a group when one of its small steps matches.
+    - Status: <span class="st todo">能做</span> (green), class "team" purple (waiting for someone), "warn" yellow, "risk" red,
+      "wait" hollow. A step that waits for someone else gets class "wait" on its box and "wait-row" on its row.
+    - Every box has data-k; what to do and the expected result go in the JSON block id="details".
+      A row ["命令", "the command", "cmd"] shows the command with a 复制 button. Commands sit in the small step they
+      belong to; there is no separate list of all commands.
+    - No <style> or <script> in the page: summary.css and summary.js do everything.
+  To use: copy the card into the 主图 block of a page built from INFO_SUMMARY_TEMPLATE.html, replace the labels,
+  and add the data-k keys to that page's JSON block.
+  Like INFO_SUMMARY_TEMPLATE.html, it links assets/ as if it sat in info-summary/; copy it there to view it.
+-->
+
+<div class="nav">
+  <div class="wrap">
+    <span class="brand">步骤流程图参考</span>
+    <nav class="links" id="links">
+      <a href="#how">主图</a>
+    </nav>
+    <input id="q" type="search" placeholder="搜索" aria-label="搜索" autocomplete="off">
+    <span class="count" id="count"></span>
+    <button class="menu" id="menu" aria-label="打开菜单" aria-expanded="false" aria-controls="links"><i></i><i></i><i></i></button>
+  </div>
+</div>
+
+<main>
+
+  <section id="how" class="on-grey">
+    <div class="wrap">
+      <div class="head rv">
+        <h2 class="ty-h2">怎么做。</h2>
+        <p class="ty-sub g">从上往下做；点大步骤看它的小步骤，点小步骤看命令和预期。</p>
+      </div>
+      <div class="card rv">
+        <p class="eyebrow">图 1：测试流程 · 左边是大步骤，右边是每一步的小步骤</p>
+        <p class="ty-card">3 个大步骤，7 个小步骤。<span class="g">第 1、2 大步现在就能做；第 3 大步要等审批。</span></p>
+        <div class="sflow">
+          <div class="sf-tools"><button type="button" class="sf-all">全部展开</button></div>
+
+          <div class="sf-row">
+            <div class="sf-left">
+              <button type="button" class="sf-box sf-big" data-k="s1"><b>1 准备</b><span class="st todo">能做</span><span class="sub">2 个小步骤</span></button>
+              <span class="sf-line"></span>
+            </div>
+            <div class="sf-group">
+              <button type="button" class="sf-closed">▸ 2 个小步骤，点开看</button>
+              <ol class="sf-steps">
+                <li><button type="button" class="sf-box" data-k="k11"><b>1.1 拉代码</b><span class="st todo">能做</span><span class="sub">git pull</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k12"><b>1.2 登录</b><span class="st todo">能做</span><span class="sub">登录到测试环境</span></button></li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="sf-row">
+            <div class="sf-left">
+              <button type="button" class="sf-box sf-big" data-k="s2"><b>2 测试</b><span class="st todo">能做</span><span class="sub">用对象 A、B</span></button>
+              <span class="sf-line"></span>
+            </div>
+            <div class="sf-group">
+              <button type="button" class="sf-closed">▸ 3 个小步骤，点开看</button>
+              <ol class="sf-steps">
+                <li><button type="button" class="sf-box" data-k="k21"><b>2.1 plan，再 apply</b><span class="st todo">能做</span><span class="sub">建对象 A、B</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k22"><b>2.2 先看 Happy path</b><span class="st todo">能做</span><span class="sub">A 预期成功</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k23"><b>2.3 再看失败的情况</b><span class="st todo">能做</span><span class="sub">B 预期失败</span></button></li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="sf-row wait-row">
+            <div class="sf-left">
+              <button type="button" class="sf-box sf-big wait" data-k="s3"><b>3 清理</b><span class="st team">等审批</span><span class="sub">2 个小步骤</span></button>
+              <span class="sf-line"></span>
+            </div>
+            <div class="sf-group">
+              <button type="button" class="sf-closed">▸ 2 个小步骤，点开看</button>
+              <ol class="sf-steps">
+                <li><button type="button" class="sf-box wait" data-k="k31"><b>3.1 请人审批</b><span class="st team">等审批</span><span class="sub">要别人点批准</span></button></li>
+                <li><button type="button" class="sf-box wait" data-k="k32"><b>3.2 删掉测试资源</b><span class="st team">等审批</span><span class="sub">批了以后再删</span></button></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <div class="legend">
+          <span>左边深蓝框：大步骤，点它展开小步骤</span>
+          <span><i class="dot todo"></i>蓝点：能做</span>
+          <span><i class="dot team"></i>紫点：要等别人</span>
+          <span><i class="dot warn"></i>黄色虚线框和虚线：要等别人的步骤</span>
+        </div>
+        <div class="dt"><p class="hint">点任意方块，这里显示做什么、预期是什么；命令旁边有“复制”按钮。</p></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    参考图 · 2026-11-09
+  </div>
+</footer>
+
+<script type="application/json" id="details">
+{
+  "s1": ["1 准备", [["做什么", "拿到最新代码，登录测试环境"], ["为什么", "后面的步骤都要用这两样"]]],
+  "s2": ["2 测试", [["用哪些对象", "A（Happy path）、B（失败的情况）"], ["证明什么", "正常的通过，不正常的被抓出来"]]],
+  "s3": ["3 清理", [["做什么", "审批以后删掉测试资源"], ["为什么要等", "删除要别人批准"]]],
+  "k11": ["1.1 拉代码", [["在哪", "本机终端"], ["命令", "git pull", "cmd"]]],
+  "k12": ["1.2 登录", [["做什么", "登录到测试环境"]]],
+  "k21": ["2.1 plan，再 apply", [["先 plan", "terraform plan -out=test.tfplan", "cmd"], ["plan 预期", "2 to add、0 to change、0 to destroy"], ["再 apply", "terraform apply test.tfplan", "cmd"]]],
+  "k22": ["2.2 先看 Happy path", [["预期", "A 成功"]]],
+  "k23": ["2.3 再看失败的情况", [["预期", "B 失败，原因写在结果里"]]],
+  "k31": ["3.1 请人审批", [["找谁", "有权限批准的人"]]],
+  "k32": ["3.2 删掉测试资源", [["命令", "terraform destroy", "cmd"], ["预期", "测试资源都删掉"]]]
+}
+</script>
+
+</body>
+</html>

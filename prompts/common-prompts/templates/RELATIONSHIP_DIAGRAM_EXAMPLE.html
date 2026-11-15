@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>关系图参考 信息汇总</title>
+<link rel="stylesheet" href="assets/summary.css">
+<script src="assets/summary.js"></script>
+</head>
+<body>
+<!--
+  RELATIONSHIP_DIAGRAM_EXAMPLE.html
+  Reference for a relationship diagram: who → what they get → where it applies (for example identity → role → scope).
+  Based on a real work figure the Human called very clear (2026-11-04); all names are made generic.
+  Why it reads well, although it has more than 5 boxes (HTML_PAGE_RULES.md `先全貌，后细节`):
+    - Overview first: one sentence above the figure gives the whole picture ("2 个 Subscription，3 个 identity，6 条 role").
+    - Big groups: only 3 columns (who / role / where); the right column is split into Subscription zones with RG boxes inside.
+      The "at most 5" limit counts these groups, not the boxes inside them.
+    - Details stay on the figure: in a relationship diagram the links are the answer, so nothing is folded away.
+    - Status on the boxes and lines: blue box + solid line = given; yellow dashed box + dashed line = not given or not confirmed.
+    - Every box is clickable; full names, IDs and status go in the JSON block id="details", not on the box.
+  To use: copy the card (div.card.arch) into the 主图 block of a page built from INFO_SUMMARY_TEMPLATE.html,
+  replace the labels, and add the data-k keys to that page's JSON block.
+  Like INFO_SUMMARY_TEMPLATE.html, it links assets/ as if it sat in info-summary/; copy it there to view it.
+-->
+
+<div class="nav">
+  <div class="wrap">
+    <span class="brand">关系图参考</span>
+    <nav class="links" id="links">
+      <a href="#how">主图</a>
+    </nav>
+    <input id="q" type="search" placeholder="搜索" aria-label="搜索" autocomplete="off">
+    <span class="count" id="count"></span>
+    <button class="menu" id="menu" aria-label="打开菜单" aria-expanded="false" aria-controls="links"><i></i><i></i><i></i></button>
+  </div>
+</div>
+
+<main>
+
+  <header class="hero"><div class="wrap">
+    <p class="eyebrow">参考图 · 谁在哪里有什么 role</p>
+    <h1 class="ty-hero">三列关系图。<br><span class="g">左边是谁，中间拿什么，右边作用在哪。</span></h1>
+  </div></header>
+
+  <section id="how" class="on-grey">
+    <div class="wrap">
+      <div class="head rv">
+        <h2 class="ty-h2">谁要在哪里有什么 role。</h2>
+        <p class="ty-sub g">蓝色已给，黄色还没给或没确认。点方块看细节。</p>
+      </div>
+      <div class="card arch rv">
+        <p class="eyebrow">图 1：测试的架构和 role</p>
+        <p class="ty-card">2 个 Subscription，3 个 identity，6 条 role。<span class="g">Policy MI 要两边都有 role，因为部署从测试 RG 发起、Backup Instance 建在 vault 里。</span></p>
+        <div class="diagram">
+          <svg viewBox="0 0 1000 670" role="img" aria-label="左列 3 个 identity，中列 6 条 role，右列两个 Subscription：申请人在 Subscription A 和测试 RG 上要 3 条 role，Vault MI 在测试 RG 上要 1 条，Policy MI 在测试 RG 和 vault RG 上各要 1 条">
+            <defs>
+              <marker id="mb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1976d2"/></marker>
+              <marker id="mu" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0d47a1"/></marker>
+            </defs>
+            <rect class="zone" x="580" y="20" width="400" height="415" rx="20"/>
+            <text class="zl" x="600" y="50">Subscription A · 测试</text>
+            <rect class="rg" x="600" y="140" width="360" height="280" rx="14"/>
+            <text class="rgl" x="616" y="408">RG 测试</text>
+            <rect class="zone" x="580" y="455" width="400" height="200" rx="20"/>
+            <text class="zl" x="600" y="485">Subscription B · 共享</text>
+            <rect class="rg" x="600" y="500" width="360" height="145" rx="14"/>
+            <text class="rgl" x="616" y="633">RG vault</text>
+
+            <path class="ed b" d="M190,168 H197 V90 H201" marker-end="url(#mb)"/>
+            <path class="ed b" d="M190,168 H201" marker-end="url(#mb)"/>
+            <path class="ed t d" d="M190,168 H197 V246 H201" marker-end="url(#mu)"/>
+            <path class="ed t d" d="M190,324 H201" marker-end="url(#mu)"/>
+            <path class="ed b" d="M190,441 H197 V402 H201" marker-end="url(#mb)"/>
+            <path class="ed t d" d="M190,441 H197 V480 H201" marker-end="url(#mu)"/>
+            <path class="ed b" d="M555,90 H596" marker-end="url(#mb)"/>
+            <path class="ed b" d="M555,168 H596" marker-end="url(#mb)"/>
+            <path class="ed t d" d="M555,246 H596" marker-end="url(#mu)"/>
+            <path class="ed t d" d="M555,324 H596" marker-end="url(#mu)"/>
+            <path class="ed b" d="M555,402 H596" marker-end="url(#mb)"/>
+            <path class="ed t d" d="M555,480 H568 V543 H596" marker-end="url(#mu)"/>
+            <path class="ed t d" d="M775,543 H781" marker-end="url(#mu)"/>
+
+            <g class="an k3" data-k="you" tabindex="0" role="button"><rect x="20" y="138" width="170" height="60" rx="14"/><text class="tt" x="36" y="164">申请人</text><text class="ts" x="36" y="186">做测试的人</text></g>
+            <g class="an k3" data-k="vmi" tabindex="0" role="button"><rect x="20" y="294" width="170" height="60" rx="14"/><text class="tt" x="36" y="320">Vault MI</text><text class="ts" x="36" y="342">在 Subscription B</text></g>
+            <g class="an k3" data-k="pmi" tabindex="0" role="button"><rect x="20" y="411" width="170" height="60" rx="14"/><text class="tt" x="36" y="437">Policy MI</text><text class="ts" x="36" y="459">建 assignment 才有</text></g>
+
+            <g class="an k1" data-k="r1" tabindex="0" role="button"><rect x="205" y="62" width="350" height="56" rx="12"/><text class="tt" x="221" y="87">Resource Policy Contributor</text><text class="ts" x="221" y="109">Subscription A · 已给</text></g>
+            <g class="an k1" data-k="r2" tabindex="0" role="button"><rect x="205" y="140" width="350" height="56" rx="12"/><text class="tt" x="221" y="165">Contributor</text><text class="ts" x="221" y="187">RG 测试 · 已给</text></g>
+            <g class="an unk" data-k="r3" tabindex="0" role="button"><rect x="205" y="218" width="350" height="56" rx="12"/><text class="tt" x="221" y="243">RBAC Administrator</text><text class="ts" x="221" y="265">RG 测试 · 还没给</text></g>
+            <g class="an unk" data-k="r4" tabindex="0" role="button"><rect x="205" y="296" width="350" height="56" rx="12"/><text class="tt" x="221" y="321">Storage Account Backup Contributor</text><text class="ts" x="221" y="343">RG 测试 · 待确认</text></g>
+            <g class="an k1" data-k="r5" tabindex="0" role="button"><rect x="205" y="374" width="350" height="56" rx="12"/><text class="tt" x="221" y="399">Backup Contributor</text><text class="ts" x="221" y="421">RG 测试 · 已给</text></g>
+            <g class="an unk" data-k="r6" tabindex="0" role="button"><rect x="205" y="452" width="350" height="56" rx="12"/><text class="tt" x="221" y="477">Backup Contributor</text><text class="ts" x="221" y="499">RG vault · 跨 Subscription · 还没给</text></g>
+
+            <g class="an" data-k="def" tabindex="0" role="button"><rect x="600" y="62" width="360" height="56" rx="14"/><text class="tt" x="616" y="87">Policy definition ×2</text><text class="ts" x="616" y="109">Audit + DINE</text></g>
+            <g class="an" data-k="asg" tabindex="0" role="button"><rect x="620" y="160" width="320" height="56" rx="14"/><text class="tt" x="636" y="185">Policy assignment ×2</text><text class="ts" x="636" y="207">只分配到这个 RG</text></g>
+            <g class="an" data-k="sa" tabindex="0" role="button"><rect x="620" y="232" width="320" height="56" rx="14"/><text class="tt" x="636" y="257">测试 Storage Account</text><text class="ts" x="636" y="279">要被备份的</text></g>
+            <g class="an" data-k="vault" tabindex="0" role="button"><rect x="620" y="515" width="155" height="56" rx="14"/><text class="tt" x="636" y="540">Backup Vault</text><text class="ts" x="636" y="562">已有</text></g>
+            <g class="an" data-k="bi" tabindex="0" role="button"><rect x="785" y="515" width="155" height="56" rx="14"/><text class="tt" x="801" y="540">Backup</text><text class="ts" x="801" y="562">Instance</text></g>
+          </svg>
+        </div>
+        <div class="legend">
+          <span>深蓝框：identity</span>
+          <span><i class="sw b"></i>蓝框和实线：已给</span>
+          <span><i class="dot warn"></i>黄色虚线框和虚线：还没给或没确认</span>
+          <span>灰框：resource</span>
+        </div>
+        <div class="dt"><p class="hint">点上面的方块看 role 用来做什么。</p></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    参考图 · 2026-11-07
+  </div>
+</footer>
+
+<script type="application/json" id="details">
+{
+  "you": ["申请人", [["要的 role", "Resource Policy Contributor · Subscription A；Contributor · RG 测试；RBAC Administrator · RG 测试"]]],
+  "vmi": ["Vault MI", [["是谁", "Backup Vault 的 system-assigned managed identity"], ["要的 role", "Storage Account Backup Contributor · RG 测试"]]],
+  "pmi": ["Policy MI", [["是什么", "DINE assignment 的 system-assigned managed identity"], ["什么时候有", "建 assignment 时 Azure 一起建"], ["要的 role", "Backup Contributor · RG 测试和 RG vault"]]],
+  "r1": ["Resource Policy Contributor", [["用来做什么", "建 policy definition 和 assignment"], ["给谁", "申请人"], ["Scope", "Subscription A"], ["状态", "已给"]]],
+  "r2": ["Contributor", [["用来做什么", "建测试 Storage Account"], ["给谁", "申请人"], ["Scope", "RG 测试"], ["状态", "已给"]]],
+  "r3": ["RBAC Administrator", [["用来做什么", "建 DINE assignment 时自动给 Policy MI 加 role"], ["给谁", "申请人"], ["Scope", "RG 测试"], ["状态", "还没给"]]],
+  "r4": ["Storage Account Backup Contributor", [["用来做什么", "让 vault 能读测试账号的数据做备份"], ["给谁", "Vault MI"], ["Scope", "RG 测试"], ["状态", "待确认"]]],
+  "r5": ["Backup Contributor · RG 测试", [["用来做什么", "DINE 的部署从测试账号所在的 RG 发起"], ["给谁", "Policy MI"], ["状态", "已给"]]],
+  "r6": ["Backup Contributor · RG vault", [["用来做什么", "在 vault 里建 Backup Instance"], ["给谁", "Policy MI"], ["Scope", "Subscription B · RG vault"], ["状态", "还没给"]]],
+  "def": ["Policy definition ×2", [["哪两个", "AuditIfNotExists 和 DeployIfNotExists"], ["在哪", "Subscription A"]]],
+  "asg": ["Policy assignment ×2", [["Scope", "只分配到 RG 测试"]]],
+  "sa": ["测试 Storage Account", [["说明", "被 policy 检查、要被备份的账号"]]],
+  "vault": ["Backup Vault", [["在哪", "Subscription B · RG vault"]]],
+  "bi": ["Backup Instance", [["谁建", "DINE policy 用 Policy MI 自动建"]]]
+}
+</script>
+
+</body>
+</html>

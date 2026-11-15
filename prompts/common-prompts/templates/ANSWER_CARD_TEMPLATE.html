@@ -1,0 +1,95 @@
+<!--
+  ANSWER_CARD_TEMPLATE.html
+  HTML fragment (no <html>/<head>/<body>) for an answer card shown inside the chat.
+  The card repeats the first three answer sections as a picture: 一句话结论 (hero), Diagram (grey area), 核心几件事 (layers or open Q&A).
+  Use it only when the Human asks for a card; otherwise the first answer section 🃏 回答卡片 is ➖ N/A.
+  The card is collapsed by default (details.acw without "open"). It fills the first answer section 🃏 回答卡片; the other eleven sections are still written in Markdown under it, because phone Remote Control cannot show the card.
+  核心几件事: use numbered layers (.layer, badge "第 N 层") when each point builds on the one before; use open Q&A (details open) when points are independent.
+  Copy it, replace the example content, keep the CSS. Rules: AGENTS.md `Human-facing Chat sections` (`回答卡片`).
+  Diagram: pick the form from HTML_PAGE_RULES.md `常用图形`; draw it by INFO_SUMMARY_HTML_RULES.md `主图` (short labels, status colours with a legend).
+  The relation must be visible: arrows (.flow) for steps or calls, a comparison table (.cmp) for options. Cards go one per row, never side by side.
+  Answers: the 回答的是 / 解决的是 opening sits on its own line; the answer starts on the next line (<br>).
+  Every diagram title starts with 图 N： (N from 1, in order); text that mentions it uses the same 图 N.
+  Status dots: #34c759 完成, #f9a825 待确认, #8e24aa 要团队, hollow grey 待做, #ff3b30 先处理.
+  No emoji inside the card.
+-->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+.acw{font-family:"SF Pro Text",-apple-system,BlinkMacSystemFont,Inter,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;letter-spacing:-.01em;margin:.5rem 0}
+.acw>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;background:linear-gradient(135deg,#1976d2,#42a5f5);color:#fff;border-radius:16px;padding:14px 20px;font-size:16px;font-weight:600}
+.acw>summary::-webkit-details-marker{display:none}
+.acw>summary::after{content:"+";font-size:24px;font-weight:300;line-height:1;transition:transform .3s}
+.acw[open]>summary{margin-bottom:8px}
+.acw[open]>summary::after{transform:rotate(45deg)}
+.ac{color:#1f2937}
+.ac .hero{background:linear-gradient(135deg,#1976d2,#42a5f5);color:#fff;border-radius:20px 20px 0 0;padding:24px 28px}
+.ac .label{margin:0;font-size:13px;opacity:.85}
+.ac .title{margin:8px 0 0;font-size:22px;font-weight:600;line-height:1.3}
+.ac .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:16px;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.35)}
+.ac .stats p{margin:0}.ac .stats .k{font-size:13px;opacity:.8}.ac .stats .v{margin-top:4px;font-size:17px;font-weight:600}
+.ac .grey{background:#f4f7fb;padding:28px;border-radius:0 0 20px 20px}
+.ac .h2{font-size:22px;font-weight:600;color:#1976d2;margin:0 0 16px}
+.ac .card{background:#fff;border-radius:18px;padding:18px 20px;min-width:0;overflow-wrap:anywhere}
+.ac .card .k{margin:0;font-size:13px;color:#5f6b7a}.ac .card .v{margin:6px 0 0;font-size:20px;font-weight:600}.ac .card .s{margin:4px 0 0;color:#5f6b7a}
+.ac .flow{display:flex;flex-direction:column;align-items:center;gap:6px}
+.ac .node{background:#fff;border-radius:14px;padding:12px 20px;font-size:16px;font-weight:600;text-align:center;min-width:0;overflow-wrap:anywhere}
+.ac .arr{color:#1976d2;font-size:18px;line-height:1}
+.ac .cmpw{overflow-x:auto}
+.ac .cmp{width:100%;border-collapse:collapse;background:#fff;border-radius:18px;overflow:hidden;font-size:16px}
+.ac .cmp th,.ac .cmp td{padding:12px 16px;text-align:left;border-bottom:1px solid #e5eaf1;vertical-align:top}
+.ac .cmp th{font-size:13px;font-weight:500;color:#5f6b7a}
+.ac .cmp td:first-child{font-weight:600}
+.ac .cmp tr:last-child td{border-bottom:0}
+.ac .legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin:14px 0 28px;font-size:14px;color:#5f6b7a}
+.ac .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px}
+.ac details{background:#fff;border-radius:18px;padding:0 20px;margin-bottom:10px}
+.ac summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 0 8px;font-size:17px;font-weight:500}
+.ac summary::-webkit-details-marker{display:none}
+.ac summary::after{content:"+";font-size:26px;font-weight:300;color:#5f6b7a;transition:transform .3s}
+.ac details[open] summary::after{transform:rotate(45deg)}
+.ac details p{margin:0 0 16px;color:#424245;font-size:16px;line-height:1.5}
+.ac .layer{background:#fff;border-radius:18px;padding:18px 20px;display:flex;gap:16px;align-items:flex-start}
+.ac .num{flex:none;padding:4px 10px;border-radius:999px;background:#e3f2fd;color:#0d47a1;font-weight:600;font-size:13px;white-space:nowrap}
+.ac .lt{margin:2px 0 6px;font-size:17px;font-weight:600}
+.ac .lb{margin:0;color:#424245;font-size:16px;line-height:1.5}
+.ac .link{width:2px;height:12px;background:#d5dde8;margin:0 0 0 52px}
+</style>
+<details class="acw">
+  <summary>图示卡片：点开看结论、图和核心几件事</summary>
+  <div class="ac">
+    <div class="hero">
+      <p class="label">解决的是 ENGLISH PROBLEM（中文问题）</p>
+      <p class="title">一句话结论。</p>
+      <div class="stats">
+        <div><p class="k">关键事实 1</p><p class="v">值</p></div>
+        <div><p class="k">关键事实 2</p><p class="v">值</p></div>
+      </div>
+    </div>
+    <div class="grey">
+      <p class="h2">图 1：Diagram 标题（几个字说明图讲什么）</p>
+      <!-- Steps or calls: vertical flow with arrows -->
+      <div class="flow">
+        <div class="node"><span class="dot" style="background:#34c759"></span>步骤或对象 1</div>
+        <div class="arr">↓</div>
+        <div class="node"><span class="dot" style="background:#f9a825"></span>步骤或对象 2</div>
+      </div>
+      <!-- Or options compared: rows are what is compared, columns are the options -->
+      <div class="cmpw"><table class="cmp">
+        <tr><th>比什么</th><th>方案 A</th><th>方案 B</th></tr>
+        <tr><td>比较项 1</td><td>结果</td><td>结果</td></tr>
+      </table></div>
+      <div class="legend">
+        <span><span class="dot" style="background:#34c759"></span>完成</span>
+        <span><span class="dot" style="background:#f9a825"></span>待确认</span>
+      </div>
+      <p class="h2">核心几件事</p>
+      <!-- Layers: one point builds on the one before -->
+      <div class="layer"><div class="num">第 0 层</div><div><p class="lt">这一层回答什么？</p><p class="lb">回答的是 ENGLISH QUESTION（中文问题）：<br>一句话答案。</p></div></div>
+      <div class="link"></div>
+      <div class="layer"><div class="num">第 1 层</div><div><p class="lt">下一层回答什么？</p><p class="lb">回答的是 ENGLISH QUESTION（中文问题）：<br>一句话答案。</p></div></div>
+      <!-- Or open Q&A: points are independent -->
+      <details open><summary>问题？</summary><p>回答的是 ENGLISH QUESTION（中文问题）：<br>一句话答案。</p></details>
+      <details open><summary>问题？</summary><p>解决的是 ENGLISH PROBLEM（中文问题）：<br>一句话 solution。</p></details>
+    </div>
+  </div>
+</details>
