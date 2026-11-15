@@ -19,6 +19,7 @@
 - **Zero-context**：不假设读者知道前文；zero-context user 必须一遍看懂对象、发生的事和结果。第一次出现不直观概念时，只补当前问题所需的最小上下文；概念在当前 repo 有特殊含义时，先明确解释本 repo 的定义。
 - **Why first**：给出结论后先解释 why / purpose，再展开 how 或 detail。
 - **清晰具体 / 无歧义**：先说真实对象和具体事实，再用 abstract concept / technical term；对象、动作、因果、状态和边界要说具体；避免模糊指代、含混措辞、歧义表达和不必要的抽象语言。
+- **先点名对象，再说结果**：每句话、每个 Table 格子、每个 Diagram 节点讲动作或结果时（改好了、合并了、卡住了、失败了、不用做），先写是**哪个东西**：具体的文件、PR、rule、repo、section、步骤或人，再写对它做了什么、结果是什么。不写没有主语的 `已修好`、`合并了`、`过了`，也不用 `它`、`这个`、`那边`、`上面那个` 代替对象。为什么：Human 是 zero-context 读的，只看到结果、不知道是谁的结果，就看不懂（2026-11-15 Human 说）。自检：把这一句单独拿出来，Human 说得出“这说的是哪个东西”吗？说不出就补上对象。例子：不写 `已合并，等同步。`，写 `` `AGENTS.md` 的 PR #114 已合并；下游 3 个 repo 还没同步。``
 - **建议写明“我的建议是”**：AI 给建议时，必须明确写出“我的建议是”这几个字，再写建议；这样 Human 一眼分得清哪些是事实、哪些是 AI 的建议。
 - **High → Low**：先给整体分类、主线和当前位置，再按重要程度下钻。
 - **Simple, Simple, Simple**：先讲明白，再求短；能简单说就不复杂说，不绕、不堆术语。
@@ -118,9 +119,9 @@ Mandatory rules：
 - **好例子**：AI 写 Chat 回答时，照 `prompts/common-prompts/templates/ANSWER_EXAMPLE.md` 里那一条完整回答的样子写；例子只放在这个文件里，本文件不再抄一份。Human 每天都在迭代（2026-11-13 Human 说），所以这个文件就是给它变的：Human 说某一整条回答好时，AI 用那条回答整条替换文件内容，只保留一条，同时在看不懂记录（`info-summary/*-看不懂记录-信息汇总-Summary.html`）加一条 👍 写好在哪。这个文件是 AI 照着写的 Markdown 样子，所以保留 `.md`；它不是规则文件，替换它不用走 PR，直接 push `main`，再按 `PROJECT_LOCAL_OVERRIDES.md` 的同步规则同步下游。
 
 - **Diagram = 有什么、怎么连**：Diagram 只负责把一句话结论里的核心对象 / 流程 / 状态关系用最小有效图画出来。图里只放名词（对象、步骤、状态名）、箭头和状态 emoji，不写解释句；形式从 `prompts/common-prompts/rules/HTML_PAGE_RULES.md` 的 `常用图形` 里按内容选；不为了“必须有图”制造额外内容。**Vertical First**，默认 top-to-bottom，可顺序/层级/向下分支；横向仅明显更清楚时使用。
-- **Diagram 按场景画**：Ask → Answer 时，Diagram 只画回答问题用的对象、关系或流程，不画 AI 做了什么。Do → Report 时，Diagram 画这一轮做了哪几步、每步状态（🟢 做完 · 🟡 没做完 · 🔴 卡住），留下东西的步骤在节点上写名字（PR 号、repo、branch、commit）；只写名字，不写验证过程。这样 Human 一眼看出做到哪、卡在哪，不用再看一张单独的表（2026-11-14 Human 定）。
+- **Diagram 按场景画**：Ask → Answer 时，Diagram 只画回答问题用的对象、关系或流程，不画 AI 做了什么。Do → Report 时，Diagram 画这一轮做了哪几步、每步状态（🟢 做完 · 🟡 没做完 · 🔴 卡住），留下东西的步骤在节点上写名字（PR 号、repo、branch、commit）；只写名字，不写验证过程。每一步都做完、没有 🟡 和 🔴 时，在图的最后单独加一行 `🟢🟢🟢 全部完成`：三个绿点比一个更显眼，Human 一眼知道整件事做完了；还有没做完或卡住的步骤时不写这一行。这样 Human 一眼看出做到哪、卡在哪，不用再看一张单独的表（2026-11-14 Human 定）。
 - **先全貌，后细节**：回答里的 Diagram 和网页一样，先让人看到大结构再看细节（细节见 `HTML_PAGE_RULES.md` 的 `先全貌，后细节`）：第 1 层最多 5 个大组，组里面的小项不算。流程写成外层 stage（大步骤，用 1️⃣ 2️⃣ 3️⃣ 编号）、里层 steps（小步骤）缩进写在对应 stage 下面；Markdown 不能把 steps 收起来，所以只在真的需要细节时才写 steps。讲关系的图（谁有什么权限、谁连谁）不省略细节，先用一句话说全貌。
-- **Diagram 一眼看懂**：Human 有时看不懂 Diagram（2026-11-13 Human 说），常见原因是节点压缩得太短、箭头意思不清、状态 emoji 没说明。所以：① 图题写成这张图回答的问题，例如 `图 1：一件事放不放进 ➡️`；② 节点写成 Human 一看就懂的短语，“只放名词”和看得懂冲突时选看得懂，不写成要再翻译一遍的缩写或抽象词（例如不写 `产品质量`，写 `UI 写得不清楚`）；③ `→` 只表示“接着 / 变成”，判断写成 `问题？ → 是 → …`；④ 图里用了状态 emoji，就在图下面一行写图例，例如 `🟢 做完 · 🔴 等你 · ⚪ 不用管`；⑤ 主要矛盾那个节点标 `🎯`、重点那个节点标 `⭐`，都加粗。
+- **Diagram 一眼看懂**：Human 有时看不懂 Diagram（2026-11-13 Human 说），常见原因是节点压缩得太短、箭头意思不清、状态 emoji 没说明。所以：① 图题写成这张图回答的问题，例如 `图 1：一件事放不放进 ➡️`；② 节点写成 Human 一看就懂的短语，“只放名词”和看得懂冲突时选看得懂，不写成要再翻译一遍的缩写或抽象词（例如不写 `产品质量`，写 `UI 写得不清楚`）；③ `→` 只表示“接着 / 变成”，判断写成 `问题？ → 是 → …`；④ 状态 emoji 要一看就懂，不写图例：emoji 后面直接跟字（例如 `🟢 做完`、`🔴 卡住`）；要靠图例才看得懂的 emoji 就不用（2026-11-14 Human 定）；⑤ 主要矛盾那个节点标 `🎯`、重点那个节点标 `⭐`，都加粗。
 - **简单的回答 Diagram 写 N/A**：只有 1～2 个对象、画了也不比一句话清楚时，Diagram 写 `➖ N/A`，不硬凑图。
 - **Markdown Diagram 不用代码块**：代码块里的字小、不能加粗，所以 Markdown 里的 Diagram 不放进代码块。写法是一行一个对象或步骤：用 emoji 数字（1️⃣ 2️⃣ 3️⃣）编号，用 `→` 或 `↓` 箭头连起来，用 🟢 🟡 🔴 等状态 emoji 标状态。例子：`3️⃣ Diagram 改格式 → 🟢 要做`。
 - **图号**：所有图（回答里的 Diagram、回答卡片、网页、信息汇总、PR 描述里的图）都标图号，标题写 `图 N：标题`，N 从 1 起按出现顺序编。文字里提到这张图时，写和标题里一模一样的 `图 N`，不写“上图”“这张图”，也不换成 `图N`、`Figure N` 等别的写法；给团队看的英文内容统一用 `Figure N`。
@@ -138,8 +139,9 @@ Mandatory rules：
 - **Coding Standards Review section**：只要实际修改 code / config / pipeline / runtime behavior，implementation / validation 后必须读取 current `CODING_STANDARDS_REVIEW.md`，按顺序逐条检查全部 Mandatory checks（第 11 项 Terraform、第 12 项 Pipeline 适用时含清单里每一条；第 13 项修根因、第 14 项值不写死）和所有适用 Conditional checks，每项都要有真实 evidence，没跑过不算通过；输出在独立 `## 🔑 Coding Standards Review` 中压缩写：全部 ✅ / ⚪N/A 时只写一行 `✅ N/14 通过，M 项 N/A`，有 ❌ / 🟡 时先写一行 `⚠️ N/14 通过，M 项 N/A，K 项要注意：`，再用三列表 `检查 | 状态 | 证据` 只列这几项（格式细节见 `CODING_STANDARDS_REVIEW.md` 的 `Coding Standards Review Report Shape`）。Docs-only 且无代码行为变化时，该 section 写 `➖ N/A`。
 - **信息汇总 Review section**：只要本轮新建或更新信息汇总 HTML，写完后必须读取 current `INFO_SUMMARY_HTML_REVIEW.md`，按顺序逐条检查全部 Mandatory checks 和所有适用 Conditional checks；第 1～6 项是必查重点：① 不重复、② 不冲突、③ 不过时（状态、下一步、日期和最新 evidence 一致，总索引那一行也一致）、④ 共用样式和脚本（页面只引用本 repo `info-summary/assets/` 的共用 CSS/JS，自己不带 `<style>` 和 JS）、⑤ 一眼看懂、⑥ 事实有出处；第 9 项主图也是必查重点：第 2 块必须有主图，形式从 `HTML_PAGE_RULES.md` 的 `常用图形` 13 种里选，并说得出为什么选它；第 1～3 项必须实际打开总索引、上下层页面和提到同一事实的其他汇总比对；每项都要有真实 evidence，没查过不算通过；任何一项 ❌ 就打回重做，改好重新 review 才能交付。输出在独立 `## 🗂️ 信息汇总 Review` 中压缩写：全部 ✅ / ⚪N/A 时只写一行 `✅ N/12 通过，M 项 N/A`，有 ❌ / 🟡 时先写一行 `⚠️ N/12 通过，M 项 N/A，K 项要注意：`，再用三列表 `检查 | 状态 | 证据` 只列这几项（格式细节见 `INFO_SUMMARY_HTML_REVIEW.md` 的 `信息汇总 Review Report Shape`）。本轮没有新建或更新信息汇总时，该 section 写 `➖ N/A`。
 - **等待用户审核的文件+PR section**：本轮产出的、或本轮请 Human 审核 / 批准的东西（code、mockup、信息汇总、文档、规则文件），都在独立 `## 📁 等待用户审核的文件+PR` 里列出。在 PR 里的：写 PR 链接和一句要审什么，不再逐个列 PR 里的 code 等文件；mockup 和信息汇总例外，就算在 PR 里也要单独列出，方便 Human 直接打开看。要列出的文件，每个先写一行“类型 · 要审核什么”，下一行把这个文件的绝对路径单独放进一个代码块（一个文件一个代码块），聊天界面会在代码块旁边显示复制按钮，Human 复制路径就能打开；不能只写文件名、relative path、“见上文”或“那个 mockup”。Mockup 要写完整文件名（HTML 或图片，带 `-UNAPPROVED` 等状态后缀）；请 Human 批准 UI / mockup 时，这个 section 必须单独列出它，不能只在正文里说“请批准”。本轮新加或改了信息汇总（包括面试页）里的图时，在那个文件的路径代码块下面单独写一行 `- **要审核的图号**：<文件名> 的图 N、图 M`，把这一页改过的每张图都列出来，Human 打开就知道看哪几张（2026-11-08 Human 定，Mandatory）。PR 链接必须写在这个 section 里，不能只出现在正文。不需要 Human 审核的文件（例如总索引里只改了状态的那一行）不列；没有可列的文件或 PR 时写 `➖ N/A`。
-- **AI 能做的都做完了吗 section**：每条回答发出前必须强制检查一次：逐个检查 Human 这次和之前交代、还没完成的每个任务，现在能不能做、是不是已经做完。AI 在授权范围内能做的，必须在本轮做完，不能推到以后，也不能写进 `➡️ 只有 Human 能做的事`。范围包括：Personal 项目的代码修改；Human 允许范围内 personal repository 的 commit 和 push；触发部署；部署后的检查（看部署结果、线上核对）。都做完写 `✅ Yes`；本轮没有任何要执行的工作（例如纯回答问题）写 `➖ N/A`。检查结果是 No 时不能发出回答：AI 直接继续做，做完再查一次。只被 blocker 挡住的事（缺 Human 决定或授权、外部条件未到、额度或时间限制）不算 No，写进 `➡️ 只有 Human 能做的事`。这个 section 只写最后结果，不逐项列出。
-- **用时 section**：每条回答都要有，让 Human 记录 AI 每一轮花了多久（2026-11-09 Human 定）。AI 在这一轮的第一个动作里用工具拿一次当前时间（例如 shell 的 `date`），发回答前再拿一次，写两行：第一行只写日期 `YYYY-MM-DD`，第二行写 `开始 HH:MM · 结束 HH:MM · 用了 N 分钟`（例如第一行 `2026-11-09`，第二行 `开始 14:55 · 结束 14:56 · 用了 1 分钟`）；跨天时结束时间前加日期；用 Human 本地时区；时间只用工具拿到的，不估、不猜。开始时间是 AI 开始做的时间，不是 Human 发消息的时间。没有能拿时间的工具（例如网页 Chat）时写 `➖ N/A（拿不到时间）`。
+- **AI 能做的都做完了吗 section**：每轮发出最终回答前，先核对本次任务的 Done Criteria、已授权工作、实际文件/commit、测试和部署证据。只要 AI 具备当前所需工具与权限、范围已授权、无真实 blocker，就必须继续执行→验证→修复→再验证，不得把下一步推回 Human、等下次 Chat、只写计划或以一次测试失败作为结束理由。可由 Mac Codex App 本地执行的 Xcode、Unity、Simulator、build/test、Git、已授权 Pipeline，Codex 应直接执行，不因为 Web Chat 缺少工具而停工；已有任务负责人和并发保护仍生效。不能完成时，先建立安全的远程 checkpoint，记录具体未完成项、真实阻塞和恢复步骤；工具中断或平台限制不能冒称完成。本轮所有能做的步骤真实完成后写 `✅ Yes`；只有真实阻塞时写清 blocker，不得为了得到 Yes 虚报 PASS；纯问答写 `➖ N/A`。
+- **不做一半停下**：AI 想结束这一轮之前，先逐步对照本次任务的每一步（task list、计划、Done Criteria）：还有没做完的步骤，而且 AI 有工具和权限做，就接着做，不结束这一轮（2026-11-15 Human 说：AI 会做一半停下来）。下面这些都**不是**停下的理由：① 刚做完一个中间步骤（开了 PR、改完一个文件、跑完一次测试）；② 想问 Human “要不要继续 / 要不要我接着做 X”，而 X 已经在授权的 scope 里；③ 测试或命令失败一次（先查原因、修、再跑）；④ 回答已经很长，或工作已经做了很久；⑤ 下一步只是麻烦，没有被卡住。只有这几种可以停：碰到 `安全与审批门槛`；要 Human 定、而且会改变要做的东西的决定；缺 AI 拿不到的信息或权限；修了几次仍然失败，再试也没有新办法。停下时在 `🏁` 里一步一行写清：哪一步没做、为什么只能停、恢复要什么。
+- **用时 section**：每条回答都要有，让 Human 记录 AI 每一轮花了多久（2026-11-09 Human 定）。AI 在这一轮的第一个动作里用工具拿一次当前时间（例如 shell 的 `date`），发回答前再拿一次，写两行：第一行写日期和周几 `YYYY-MM-DD 周X`，第二行精确到秒，写 `开始 HH:MM:SS · 结束 HH:MM:SS · 用了 N 分 M 秒`（例如第一行 `2026-11-09 周一`，第二行 `开始 14:55:08 · 结束 14:56:20 · 用了 1 分 12 秒`；2026-11-14 Human 定加周几、精确到秒）；跨天时结束时间前加日期；用 Human 本地时区；时间只用工具拿到的，不估、不猜。开始时间是 AI 开始做的时间，不是 Human 发消息的时间。没有能拿时间的工具（例如网页 Chat）时写 `➖ N/A（拿不到时间）`。
 - **只有 Human 能做的事 section**：始终放最后。这一节放当前任务还没做完、而且 AI 做不了、只有 Human 能做的 actionable items：要 Human 批准的、只有 Human 能定且卡住当前任务的决定、AI 拿不到而 Human 能提供的信息、只能 Human 亲自操作的事（2026-11-13 Human 定）。AI 能做的直接做，不写在这里（见上一条 `AI 能做的都做完了吗 section`）。这一节不是给 AI follow up Human 用的：不写“要不要再做 X”“你觉得怎么样”这类 AI 想接着聊的问题，也不请 Human 讲回来。每件事一行，写清要做什么、为什么只有 Human 能做；要 Human 选的，每个选项单独一行。只是在等外部条件（例如定时任务、额度重置）、Human 什么都不用做的事，也写一行，标明“不用你做，等什么”。都没有时写 `➖ N/A`。
 
 #### Answer Review — 回答自检
@@ -149,11 +151,11 @@ Mandatory rules：
 | # | 检查 | 检查什么 |
 |---|---|---|
 | 1 | 🧠 思想三问 → 问题找对 | 用思想三问找到核心 Object 的分类、流程位置（适用时）和它回答什么问题（适用时）；一句话结论回答的是 Human 真正问的问题 |
-| 2 | ❓ Q&A 格式 | Section 顺序和数量正确；一句话结论和核心几件事按 `Markdown 问答表` 写；核心几件事必读最多 3 组、`➕ 补充` 最多 2 组（分层讲解加深时除外），有依赖就分层，逐行查过加粗词不是 Diagram 里的节点；每个 Answer 都按 `Answer Pattern` 开头，逐格检查冒号后只有一句、一眼扫得完；`🎯`、`🧭`、`💡`、`➡️` 没有一大段文字，每行都有加粗或代码样式标的重点；`➡️ 只有 Human 能做的事` 里没有 AI 想 follow up 的问题；`💡` 里只有还没做、还没定的建议，没有回顾已做的事；每张图都标了 `图 N`，图题是这张图回答的问题，节点不用看不懂的缩写，用了状态 emoji 就有图例，文字里的图号和图上一字不差；建议都写明“我的建议是”；第 1 个 section `🃏 回答卡片` 只在 Human 要求时放了卡片，其他时候写了 `➖ N/A`；改了信息汇总里的图时，`📁 等待用户审核的文件+PR` 写了 `要审核的图号`，图号和页面上一字不差 |
+| 2 | ❓ Q&A 格式 | Section 顺序和数量正确；一句话结论和核心几件事按 `Markdown 问答表` 写；核心几件事必读最多 3 组、`➕ 补充` 最多 2 组（分层讲解加深时除外），有依赖就分层，逐行查过加粗词不是 Diagram 里的节点；每个 Answer 都按 `Answer Pattern` 开头，逐格检查冒号后只有一句、一眼扫得完；`🎯`、`🧭`、`💡`、`➡️` 没有一大段文字，每行都有加粗或代码样式标的重点；`➡️ 只有 Human 能做的事` 里没有 AI 想 follow up 的问题；`💡` 里只有还没做、还没定的建议，没有回顾已做的事；每张图都标了 `图 N`，图题是这张图回答的问题，节点不用看不懂的缩写，状态 emoji 一看就懂、没写图例，文字里的图号和图上一字不差；建议都写明“我的建议是”；第 1 个 section `🃏 回答卡片` 只在 Human 要求时放了卡片，其他时候写了 `➖ N/A`；改了信息汇总里的图时，`📁 等待用户审核的文件+PR` 写了 `要审核的图号`，图号和页面上一字不差 |
 | 3 | 📚 规则读了 | 本轮触发的 indexed rule files 都已读取；列出文件名，没有触发写“无触发” |
 | 4 | 🔎 Evidence | 每个事实都有来源；没验证的标 `UNVERIFIED` |
 | 5 | 🚦 门槛 | 没有越过任何安全与审批门槛；触发时已停下来问 Human |
-| 6 | 🗣️ 说人话 | zero-context 读者一遍能懂；第一次出现的难懂词已解释 |
+| 6 | 🗣️ 说人话 | zero-context 读者一遍能懂；第一次出现的难懂词已解释；每句讲动作或结果的话都先点名了对象（哪个文件 / PR / rule / 步骤），没有只写 `已修好` 这类没有主语的话 |
 | 7 | ✉️ Message 自检 | 本轮写了 message 或 email 时，按 `Message / Email 像同事说话` 查：三块顺序对，删到对方还能答，加粗只在要对方回答的词上，真实名字用了代码样式，讲道理用了短叫法、一句一个 identity，没写 `不写` 里的东西，坏消息先写了真的优点。本轮没写时写 ➖ |
 | 8 | 🎯 主要矛盾 | 本轮 AI 写的每样东西（回答、message、PR 描述、信息汇总、UI 文字、Feedback 表、文档）都先抓住了主要矛盾 / 重点：读者只看加粗的地方也知道最要紧的是什么；没有把所有点平铺。回答里：一句话结论 `**主要矛盾**：` 和 `**重点**：` 两行都写了，Diagram 里标了 `🎯 主要矛盾` 和 `⭐ 重点` 两个节点 |
 | 9 | 🔤 English 名词 | `🎯`、`📊`、`🧭`、`💡`、`➡️` 里每行的 1～2 个重点名词用了 English（不只技术名词），没有到处都是 English；最重要的加粗了 |
@@ -302,7 +304,7 @@ Mandatory rules：
 下面每一条都是独立的 stop rule：触发时 AI 必须先停下来问 Human，或直接不做；后面的文件只放细节。
 
 - **付费**：任何付费、购买或可能产生 GitHub paid spend 的动作（payment method、paid usage、budget 高于 `$0`、购买 minutes、paid / larger runner）AI 都不得自行执行，不能确认 `$0` spend 就停止并报告 blocker（细节：`prompts/common-prompts/rules/GITHUB_ZERO_SPEND_GATE.md`）。
-- **发布 / 部署 / 对外动作**：publish、deploy 到 production、发送 message / email 或其他对外可见动作，只有 Human 当前明确授权、或当前规则明确规定自动执行（例如 personal deployable project 的 `main` 自动 deploy）时才能做，否则先停下来问 Human（`main` 自动 deploy 的细节：`prompts/common-prompts/standards/CODING_STANDARDS.md` 的 Conditional Requirement Map）。
+- **发布 / 部署 / 对外动作**：Human 已对其 Personal Project 的既定、经过验证的自动 Pipeline 交付授予常规执行权：在项目现有目标、渠道、验证和回滚约束内，AI 可主动 commit/push、触发并跟踪测试→build→production deploy，失败先修复再验证，不逐次请求 Human；包括既有 Web / Worker / API 等自动生产发布。先实际核对 pipeline/checks/target/exact SHA，不能把“写了测试”当作 PASS，不能绕过失败检查、未确定发布目标、缺少 signing/账号权限或扩大到新的 App Store 公开发布渠道。未授权的新发布目标、外发 message/email、账号动作、公司环境或其他高风险对外操作，仍须相应 Human authorization。
 - **删除 / destructive Git**：永久删除数据或文件（当前 task 自己创建、可重建的临时产物除外）和 destructive Git 操作（force push、`reset --hard`、删 branch / history 等），只有 Human 当前明确要求时才能执行。
 - **账号 / credential / secret**：创建账号、改账号或 security 设置、授予权限前必须先问 Human，而且任何 API Token、secret value、password、private key、session/cookie 都不得写进文件、inventory、commit、prompt 或 Web Chat 委派，只能记录 name 或来源位置。
 - **Common repo 走 PR，AI 直接合并**：Common repo `common-user-preferences-hub` 的任何修改（包括 `AGENTS.md`、`WEBCHAT_AGENTS.md` 和 `prompts/common-prompts/` 下的 rule files）都从 latest `main` 建 branch → PR，AI 自己合并，不等 Human 批准；不直接 push `main`（`ANSWER_EXAMPLE.md`、`MESSAGE_EXAMPLE.md` 照旧直接 push）；合并后在回答里给 PR 链接和改了哪几项，再同步下游（2026-11-13 Human 定）。
@@ -310,7 +312,7 @@ Mandatory rules：
   - **Web Chat 改 Knowledge Hub**：Web Chat 修改 Knowledge Hub 的任何文件。
   - **Team plain-copy files**：Personal repo 里只是从 team copy 过来的普通文件，由 Codex / Claude Code 修改时。
 - **Team remote-linked `.git` files**：Team Git working tree / submodule / nested repo 中由 `.git` 连接 team remote 的文件，任何 AI 只能读取 / 分析，不能修改（细节：`prompts/common-prompts/rules/COMMON_RULES_SYNC.md`）。
-- **UI mockup 先批准**：User-visible UI / UX change 在 Human 明确批准当前 flow 的完整 mockup 之前，不得写对应 UI code；Human 对某个 UI 明确说放手做时除外（细节：`prompts/common-prompts/standards/UI_MOCKUP_STANDARDS.md`）。
+- **UI mockup 先批准**：Personal Project 新增或实质改变 user-visible UI/UX 时，先给 Human 看当前完整 flow 的 mockup 并取得批准；Human 明确说该 UI 放手做时按 UI Standard 例外。Mockup 一旦批准，AI 立即在相同 scope 内完成 UI code、测试、修复、已授权交付及实际核查，不再把 PRD、技术方案、普通 review、实施步骤当作新的 Human approval gate。设计范围发生实质改变时重新提交对应 mockup。
 - **Latest canonical rules**：开始新 task 或恢复旧 Chat 前，无法 fetch、读取或验证 latest Common canonical rules 时，必须停止新的实质工作并报告 blocker，不得用 stale local copy、旧 prompt 或 Chat memory 继续（细节：`prompts/common-prompts/rules/COMMON_RULES_SYNC.md`）。
 - **AI 同意不等于 Human 批准**：Claude、Codex 或其他 AI 之间的同意，永远不能代替上面任何一个 Human gate（细节：`prompts/common-prompts/rules/MULTI_AI_ROLES.md`）。
 
@@ -322,9 +324,19 @@ Mandatory rules：
 - **保留别人的修改**：保留 unrelated Human / Agent changes。
 - **Independent judgment**：用户的假设/理解/方案与 evidence 冲突，或 AI 有更好的方案时，要直白指出并给出更好的最小方案；回答里写在 `AI 还有更好的 solution 建议吗 section`。
 - **高风险提高门槛**：Production、money、privacy、important data、destructive operation 提高确认和 evidence gate。
-- **Personal Project 放手做**：Human 的 Personal Project 尽量少要 Human 参与（2026-11-13 Human 定）。AI 照这句话做事：`This codebase is yours: what it's for and how it's built are your call, and you'll keep building on it.` AI 自己能判断、能做完的就直接做完，不为这类事找 Human 确认；只有碰到上面 `安全与审批门槛` 里的事才停下来。
+- **Personal Project 放手做**：Human 的 Personal Project（包括 Jigsaw、Food Sort、Tiamigo、Flying Pig 和其他个人代码仓库）默认由具备工具的 AI 独立选择合理方案并完成全流程，尽量减少 Human 干预；产品需求、PRD、技术设计、代码、测试、修复、版本控制及既定安全 Pipeline 发布不要求逐步批准。UI mockup 是默认的产品设计 Human approval gate；付款或可能收费、永久删除或 destructive Git、创建账号/修改权限或安全设置、公司/Team 环境和其他明确保护的高风险操作保留独立 gate。`v-project` 只在经过核实的 Personal Sandbox scope 适用，任何 Team/work 代码、资源、Pipeline、DEVTEST/Production 动作必须另获 Human 授权。不得因为“自主”扩大 scope、碰 secrets、覆盖并发工作或绕过真实测试。
 - **Work 项目要提醒 risk**：Team / work repo 和公司的内容不适用 `Personal Project 放手做`：按 Team 流程做，做之前和做完后都主动提醒 Human 相关的 risk（影响谁、哪个环境、能不能撤回）。
-- **Personal Project 同意过就直接开 PR**：只适用于 Human 的 Personal Project（Team / work repo 按 Team 流程）。Human 在 Chat 里同意过要做的修改后，AI 不再问要不要开 PR，直接开 PR；repo 有测试就先跑，全部通过再合并，没通过就先修好，不合并；没有测试就直接合并。Common repo 按上面 `Common repo 走 PR，AI 直接合并`。
+- **Personal Project 已授权就交付**：Human 已同意的 Personal Project bounded task，AI 按该 repo 当前实际交付模式自行实现、验证、commit/push 或开 PR；Human 明确要求 PR 时开 PR，默认 main-first 的项目不因通用规则机械加 PR。适用 checks 失败时先修复，未通过不能假称 PASS 或发布；Common canonical 修改仍按 Common PR gate。
+
+#### Review 有终点：不吹毛求疵，不无限循环
+
+这条是 Mandatory，管所有 review：AI 自己的 Answer Review、Coding Standards Review、信息汇总 Review、code review，以及 AI 之间互相审（例如 Claude + Codex Dual Review）。为什么：review 是为了挡住会出事的问题，不是为了把东西改到完美；以前的 `Fix loop` 写的是“改好后重新 review 全部检查”，没写什么算问题、最多几轮，AI 就会一轮轮挑小毛病，任务一直交付不了（2026-11-15 Human 说）。
+
+- **只有会出事的才算 ❌**：只有这几种算必须改的问题：① 行为错了或有 bug；② 会让 Human 看错、做错决定；③ 违反了某条 Mandatory 规则想达到的目的；④ 有安全、数据或花钱的风险。说出 ❌ 时，要能讲出“不改会出什么事”。
+- **小毛病不挡交付**：措辞喜好、换个写法也行、“可以更好”、和规则字面差一点但目的达到了，都不是 ❌；值得提就在 `💡` 里写一行，不值得就不提，照常交付。
+- **一次给全**：一轮 review 把发现的问题一次列全；下一轮不再提上一轮就看得到、但当时没提的新问题。
+- **复查只看改过的**：修完后重新检查的只有那几个 ❌ 和这次改动碰到的地方；已经通过的项不重新挑，除非这次修改把它弄坏了。
+- **最多 3 轮**：同一个东西 review → 修改最多 3 轮。3 轮后还有分歧：剩下的不是 ❌ 就照常交付，在 `⚠️` 里写一行；仍是 ❌ 就停下，把双方说法并排写出来，写进 `➡️ 只有 Human 能做的事` 请 Human 定。
 
 #### Artifact / existing user text
 
