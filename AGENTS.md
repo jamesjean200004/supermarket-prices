@@ -277,7 +277,7 @@ Mandatory rules：
 - **开工先读**：每次开始或恢复 task 前，先读总索引 `info-summary/信息汇总-Summary-索引.html`，找到这个 task 那一行，再读这个 task 相关的信息汇总和相关对象的规则信息汇总（细节：`prompts/common-prompts/rules/INFO_SUMMARY_HTML_RULES.md` 的 `开工先读，做的过程中和做完就改`）。
 - **做的过程中就改**：出现新步骤、新决定、新 blocker 或下一步变了，当轮就更新相关的信息汇总；不等到最后。
 - **做完就改**：task 完成、暂停或取消时，更新总索引那一行的状态小圆点和一句话说明；有相关信息汇总时，同时更新页面。
-- **和工作放在同一个 PR**：状态更新和对应的工作放在同一个 commit / PR 里；不再 merge 之后另开 PR 补状态。
+- **信息汇总直接 push**：Personal Project（包括 Common repo）里，`info-summary/` 下的信息汇总 HTML（包括总索引）改了就单独 commit、直接 push `main`，不走 PR；工作本身在 PR 里时，信息汇总也不放进那个 PR（2026-11-15 Human 定）。为什么：信息汇总只是记录，等 PR 合并才更新，新 Chat 读到的就是过期状态。只限 `.html` 页面；`info-summary/assets/` 的共用 CSS/JS 照旧走 PR。push 前确认这个 commit 只有信息汇总 HTML，而且不会触发部署。公司团队项目禁止 AI 修改，这条不适用。
 - **总索引只写 high level**：一行一个任务；具体步骤、下一步和 evidence 只写在那个任务的信息汇总里。
 - **小任务不建信息汇总**：一个 PR 就能做完的 task，PR 描述就是记录：做的时候总索引那一行链接 PR，PR 合并后删掉那一行（GitHub 的已合并 PR 就是记录）；要跨多个 Chat 或多个 PR 的 task 才建信息汇总。
 - **Human 会读的都写成信息汇总**：任务、账号和服务（含 Cloudflare 资源和部署目标）、对象定下的规则、看不懂记录、给 Human 看的文档，都写成 `info-summary/` 里的信息汇总 HTML，不再写 `.md`（2026-11-13 Human 定：Markdown 很难读）。`.md` 只留给 AI 读的规则文件（`AGENTS.md` 这类入口和 `prompts/common-prompts/` 下的规则）、AI 照着写的回答 / message 例子、`history/` 原文归档、只读的旧 HLF，以及 `README.md` 和 Team 规定格式的文档。
@@ -307,7 +307,7 @@ Mandatory rules：
 - **发布 / 部署 / 对外动作**：Human 已对其 Personal Project 的既定、经过验证的自动 Pipeline 交付授予常规执行权：在项目现有目标、渠道、验证和回滚约束内，AI 可主动 commit/push、触发并跟踪测试→build→production deploy，失败先修复再验证，不逐次请求 Human；包括既有 Web / Worker / API 等自动生产发布。先实际核对 pipeline/checks/target/exact SHA，不能把“写了测试”当作 PASS，不能绕过失败检查、未确定发布目标、缺少 signing/账号权限或扩大到新的 App Store 公开发布渠道。未授权的新发布目标、外发 message/email、账号动作、公司环境或其他高风险对外操作，仍须相应 Human authorization。
 - **删除 / destructive Git**：永久删除数据或文件（当前 task 自己创建、可重建的临时产物除外）和 destructive Git 操作（force push、`reset --hard`、删 branch / history 等），只有 Human 当前明确要求时才能执行。
 - **账号 / credential / secret**：创建账号、改账号或 security 设置、授予权限前必须先问 Human，而且任何 API Token、secret value、password、private key、session/cookie 都不得写进文件、inventory、commit、prompt 或 Web Chat 委派，只能记录 name 或来源位置。
-- **Common repo 走 PR，AI 直接合并**：Common repo `common-user-preferences-hub` 的任何修改（包括 `AGENTS.md`、`WEBCHAT_AGENTS.md` 和 `prompts/common-prompts/` 下的 rule files）都从 latest `main` 建 branch → PR，AI 自己合并，不等 Human 批准；不直接 push `main`（`ANSWER_EXAMPLE.md`、`MESSAGE_EXAMPLE.md` 照旧直接 push）；合并后在回答里给 PR 链接和改了哪几项，再同步下游（2026-11-13 Human 定）。
+- **Common repo 走 PR，AI 直接合并**：Common repo `common-user-preferences-hub` 的任何修改（包括 `AGENTS.md`、`WEBCHAT_AGENTS.md` 和 `prompts/common-prompts/` 下的 rule files）都从 latest `main` 建 branch → PR，AI 自己合并，不等 Human 批准；不直接 push `main`（`ANSWER_EXAMPLE.md`、`MESSAGE_EXAMPLE.md` 和 `info-summary/` 下的信息汇总 HTML 直接 push）；合并后在回答里给 PR 链接和改了哪几项，再同步下游（2026-11-13 Human 定）。
 - **必须走 PR + Human approval 的修改**：下面两种修改都必须从 latest target branch 建 branch → PR → Human 明确 approve → merge，AI 不得直接写 target branch（细节：`prompts/common-prompts/rules/COMMON_RULES_SYNC.md` 的 `Chat-managed Document PR Gate`）：
   - **Web Chat 改 Knowledge Hub**：Web Chat 修改 Knowledge Hub 的任何文件。
   - **Team plain-copy files**：Personal repo 里只是从 team copy 过来的普通文件，由 Codex / Claude Code 修改时。
