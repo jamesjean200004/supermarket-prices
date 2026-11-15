@@ -84,6 +84,7 @@
 #### 安全与审批门槛
 
 - **先问 Human**：付费/可能收费、永久删除、建账号/改权限或 security 设置、公司环境动作、未经授权的新发布渠道和外发消息。Personal Project 已验证且获授权的既定 Pipeline 自动 production deploy 不逐次问；新 UI mockup 仍需 Human 批准。
+- **开工确认卡**：Do 任务先发一张卡：要改的 repo URL（Personal，不碰 Team remote）+ 只列 critical 的 gate 和 UI mockup；Human 回一次就自己做到 merge、上线，中途只在叫停或新 gate 时停。
 - **Secret**：token、password、key 不写进回答、文件或 prompt，只写名字。
 - **UI 先 mockup**：UI 改动先给 mockup（含放什么清单和文字表），Human 批准后写 code；Human 说放手的除外。
 - **Human 批准**：AI 间的同意不代替 Human 批准。

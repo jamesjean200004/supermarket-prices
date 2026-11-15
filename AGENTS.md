@@ -257,6 +257,21 @@ Mandatory rules：
 
 不能凭上一轮 Chat memory 直接修改。
 
+#### 开工确认卡：开工前一次确认，然后自己做完
+
+这条是 Mandatory，管所有 Do → Report 任务（会改 repo、文件、部署或外部系统的任务）。目标：**少打断，做得连续**。为什么：任务中间每停一次等 Human，任务就断一次；所以能前置的确认都在开工前一次问完，之后 AI 连续做完（2026-11-16 Human 定）。
+
+- **第一步发卡**：AI 先按 `Read before work` 读完规则和相关文件，再发一张开工确认卡；Human 回复一次（例如“OK”）就开工。纯问答（Ask → Answer）不发卡。
+- **卡上必有 repo URL**：列出这次要改的每个 repo 的完整 URL（GitHub 或 Azure DevOps），标明是 Personal / Personal Sandbox repo，没有直接改公司 / Team 的 remote repo。按 `PROJECT_LOCAL_OVERRIDES.md` 常设授权同步的下游 repo 不逐个列，写一行“合并后同步常设授权的下游 repo”。
+- **Team code 快照可以改**：Personal Sandbox 文件夹里以快照（plain copy，没有连到 Team remote 的 `.git`）存放的 Team code，算 Personal Sandbox，AI 可以改，按下面 `Team 快照文件` 走。连着 Team remote `.git` 的文件仍只读（见 `安全与审批门槛`）；任务要改公司 / Team remote repo 时，不发卡开工，按 `Work 项目要提醒 risk` 和 Team 流程走。
+- **卡上只放 critical 的**：只放这次任务真的会碰到、而且只有 Human 能定的事：会碰到的 `安全与审批门槛`（付费、永久删除、建账号或改权限、App Store 公开发布、新发布渠道、外发 message）、会改变要做出来的东西的方案选择、AI 拿不到的信息。AI 自己能定的（怎么实现、测试、开 PR、merge、既定 Pipeline 上线）不放。一项一行，要选的写选项；没有这类事时卡上只有 repo URL。不为了显得周全加项，因为每多一项都增加 Human 审查的负担。
+- **UI mockup 也前置**：任务有 user-visible UI 改动时，AI 先按 `prompts/common-prompts/standards/UI_MOCKUP_STANDARDS.md` 做好 mockup，和开工确认卡一起发，Human 在同一次回复里批准；写 UI code 时不再停。Human 说这个 UI 放手做时照 UI Standard 的例外。
+- **App Store 公开发布**：默认仍不自动发（见 `安全与审批门槛` 的 `发布 / 部署 / 对外动作`）；任务要发时放进卡里，Human 在卡上同意，AI 做完就直接发，不再问。
+- **Team 快照文件**：Team 快照文件的修改仍走 PR + Human approve，因为 Human 要看改完的 code，这一步没法前置。Human approve 后，AI 接着 merge、上线和验证，不再停。
+- **确认后自己做完**：Human 回复确认卡后，AI take ownership，从头做到尾：改 code → 测试 → PR → merge → 上线 → 验证 → 更新信息汇总，中间不再问 Human；照 `不做一半停下`、`Personal Project 放手做` 和 `安全与审批门槛` 里已有的授权做。
+- **中途只在这几种情况停**：① Human 主动叫停；② 冒出开工时没确认过的新 gate、新的会改变要做的东西的决定，或缺 AI 拿不到的信息 / 权限，这时把剩下可能要问的一次问完，再接着做；③ `Team 快照文件` 的 PR approve；④ `不做一半停下` 里的修了几次仍失败。
+- **Human 可以关掉**：Human 明确说这次不需要这么自主（例如要一步一步看）时，照 Human 说的做。
+
 #### GitHub 任务领取归属（Codex 单独工作也必须执行）
 
 - **先检查再领取**：Codex 每次从 GitHub 仓库文件或 GitHub Projects 找到、恢复或准备分派任务时，先检查该任务在现有共享记录中的负责人和状态；即使只有 Codex 自己工作，也必须执行。
@@ -302,18 +317,18 @@ Mandatory rules：
 
 #### 安全与审批门槛（一句话版）
 
-下面每一条都是独立的 stop rule：触发时 AI 必须先停下来问 Human，或直接不做；后面的文件只放细节。
+下面每一条都是独立的 stop rule：触发时 AI 必须先停下来问 Human，或直接不做；后面的文件只放细节。开工时就能预见会碰到的，在 `开工确认卡` 里一次问完，Human 在卡上同意就算已授权，做的过程中不再停。
 
 - **付费**：任何付费、购买或可能产生 GitHub paid spend 的动作（payment method、paid usage、budget 高于 `$0`、购买 minutes、paid / larger runner）AI 都不得自行执行，不能确认 `$0` spend 就停止并报告 blocker（细节：`prompts/common-prompts/rules/GITHUB_ZERO_SPEND_GATE.md`）。
-- **发布 / 部署 / 对外动作**：Human 已对其 Personal Project 的既定、经过验证的自动 Pipeline 交付授予常规执行权：在项目现有目标、渠道、验证和回滚约束内，AI 可主动 commit/push、触发并跟踪测试→build→production deploy，失败先修复再验证，不逐次请求 Human；包括既有 Web / Worker / API 等自动生产发布。先实际核对 pipeline/checks/target/exact SHA，不能把“写了测试”当作 PASS，不能绕过失败检查、未确定发布目标、缺少 signing/账号权限或扩大到新的 App Store 公开发布渠道。未授权的新发布目标、外发 message/email、账号动作、公司环境或其他高风险对外操作，仍须相应 Human authorization。
+- **发布 / 部署 / 对外动作**：Human 已对其 Personal Project 的既定、经过验证的自动 Pipeline 交付授予常规执行权：在项目现有目标、渠道、验证和回滚约束内，AI 可主动 commit/push、触发并跟踪测试→build→production deploy，失败先修复再验证，不逐次请求 Human；包括既有 Web / Worker / API 等自动生产发布。先实际核对 pipeline/checks/target/exact SHA，不能把“写了测试”当作 PASS，不能绕过失败检查、未确定发布目标、缺少 signing/账号权限或扩大到新的 App Store 公开发布渠道（Human 在 `开工确认卡` 上同意了 App Store 公开发布的除外）。未授权的新发布目标、外发 message/email、账号动作、公司环境或其他高风险对外操作，仍须相应 Human authorization。
 - **删除 / destructive Git**：永久删除数据或文件（当前 task 自己创建、可重建的临时产物除外）和 destructive Git 操作（force push、`reset --hard`、删 branch / history 等），只有 Human 当前明确要求时才能执行。
 - **账号 / credential / secret**：创建账号、改账号或 security 设置、授予权限前必须先问 Human，而且任何 API Token、secret value、password、private key、session/cookie 都不得写进文件、inventory、commit、prompt 或 Web Chat 委派，只能记录 name 或来源位置。
 - **Common repo 走 PR，AI 直接合并**：Common repo `common-user-preferences-hub` 的任何修改（包括 `AGENTS.md`、`WEBCHAT_AGENTS.md` 和 `prompts/common-prompts/` 下的 rule files）都从 latest `main` 建 branch → PR，AI 自己合并，不等 Human 批准；不直接 push `main`（`ANSWER_EXAMPLE.md`、`MESSAGE_EXAMPLE.md` 和 `info-summary/` 下的信息汇总 HTML 直接 push）；合并后在回答里给 PR 链接和改了哪几项，再同步下游（2026-11-13 Human 定）。
 - **必须走 PR + Human approval 的修改**：下面两种修改都必须从 latest target branch 建 branch → PR → Human 明确 approve → merge，AI 不得直接写 target branch（细节：`prompts/common-prompts/rules/COMMON_RULES_SYNC.md` 的 `Chat-managed Document PR Gate`）：
   - **Web Chat 改 Knowledge Hub**：Web Chat 修改 Knowledge Hub 的任何文件。
-  - **Team plain-copy files**：Personal repo 里只是从 team copy 过来的普通文件，由 Codex / Claude Code 修改时。
+  - **Team plain-copy files**：Personal repo 里只是从 team copy 过来的普通文件，由 Codex / Claude Code 修改时；Human approve 后 AI 接着 merge、上线和验证，不再停（见 `开工确认卡` 的 `Team 快照文件`）。
 - **Team remote-linked `.git` files**：Team Git working tree / submodule / nested repo 中由 `.git` 连接 team remote 的文件，任何 AI 只能读取 / 分析，不能修改（细节：`prompts/common-prompts/rules/COMMON_RULES_SYNC.md`）。
-- **UI mockup 先批准**：Personal Project 新增或实质改变 user-visible UI/UX 时，先给 Human 看当前完整 flow 的 mockup 并取得批准；Human 明确说该 UI 放手做时按 UI Standard 例外。Mockup 一旦批准，AI 立即在相同 scope 内完成 UI code、测试、修复、已授权交付及实际核查，不再把 PRD、技术方案、普通 review、实施步骤当作新的 Human approval gate。设计范围发生实质改变时重新提交对应 mockup。
+- **UI mockup 先批准**：Personal Project 新增或实质改变 user-visible UI/UX 时，先给 Human 看当前完整 flow 的 mockup 并取得批准；Human 明确说该 UI 放手做时按 UI Standard 例外。Mockup 和 `开工确认卡` 一起发，开工前批准。Mockup 一旦批准，AI 立即在相同 scope 内完成 UI code、测试、修复、已授权交付及实际核查，不再把 PRD、技术方案、普通 review、实施步骤当作新的 Human approval gate。设计范围发生实质改变时重新提交对应 mockup。
 - **Latest canonical rules**：开始新 task 或恢复旧 Chat 前，无法 fetch、读取或验证 latest Common canonical rules 时，必须停止新的实质工作并报告 blocker，不得用 stale local copy、旧 prompt 或 Chat memory 继续（细节：`prompts/common-prompts/rules/COMMON_RULES_SYNC.md`）。
 - **AI 同意不等于 Human 批准**：Claude、Codex 或其他 AI 之间的同意，永远不能代替上面任何一个 Human gate（细节：`prompts/common-prompts/rules/MULTI_AI_ROLES.md`）。
 
