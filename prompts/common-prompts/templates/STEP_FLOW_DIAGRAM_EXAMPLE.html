@@ -48,58 +48,58 @@
     <div class="wrap">
       <div class="head rv">
         <h2 class="ty-h2">怎么做。</h2>
-        <p class="ty-sub g">从上往下做；点大步骤看它的小步骤，点小步骤看命令和预期。</p>
+        <p class="ty-sub g">从上往下做；点 Stage 看它的 Steps，点 Step 看命令、预期和用时。</p>
       </div>
       <div class="card rv">
-        <p class="eyebrow">图 1：测试流程 · 左边是大步骤，右边是每一步的小步骤</p>
-        <p class="ty-card">3 个大步骤，7 个小步骤。<span class="g">第 1、2 大步现在就能做；第 3 大步要等审批。</span></p>
+        <p class="eyebrow">图 1：测试流程 · 左边是 Stage，右边是每个 Stage 的 Steps</p>
+        <p class="ty-card">3 个 Stage，7 个 Steps。<span class="g">Stage 1 做完了，Stage 2 在做；⏰ 是等得久的 Step。</span></p>
         <div class="sflow">
           <div class="sf-tools"><button type="button" class="sf-all">全部展开</button></div>
 
           <div class="sf-row">
             <div class="sf-left">
-              <button type="button" class="sf-box sf-big" data-k="s1"><b>1 准备</b><span class="st todo">⬜ 待做</span><span class="sub">2 个小步骤</span></button>
+              <button type="button" class="sf-box sf-big" data-k="s1"><b>Stage 1 准备</b><span class="st">✅ 做完</span><span class="sub">2 个 Steps · 用了 14 分 20 秒</span></button>
               <span class="sf-line"></span>
             </div>
             <div class="sf-group">
-              <button type="button" class="sf-closed">▸ 2 个小步骤，点开看</button>
+              <button type="button" class="sf-closed">▸ 2 个 Steps，点开看</button>
               <ol class="sf-steps">
-                <li><button type="button" class="sf-box" data-k="k11"><b>1.1 拉代码</b><span class="st todo">⬜ 待做</span><span class="sub">git pull</span></button></li>
-                <li><button type="button" class="sf-box" data-k="k12"><b>1.2 登录</b><span class="st todo">⬜ 待做</span><span class="sub">登录到测试环境</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k11"><b>Step 1.1 拉代码</b><span class="st">✅ 做完</span><span class="sub">git pull · 用了 0 分 15 秒</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k12"><b>Step 1.2 登录</b><span class="st">✅ 做完</span><span class="sub">⏰ 等人登录 · 用了 14 分 05 秒</span></button></li>
               </ol>
             </div>
           </div>
 
           <div class="sf-row">
             <div class="sf-left">
-              <button type="button" class="sf-box sf-big" data-k="s2"><b>2 测试</b><span class="st todo">⬜ 待做</span><span class="sub">用对象 A、B</span></button>
+              <button type="button" class="sf-box sf-big" data-k="s2"><b>Stage 2 测试</b><span class="st">🟡 在做</span><span class="sub">用对象 A、B</span></button>
               <span class="sf-line"></span>
             </div>
             <div class="sf-group">
-              <button type="button" class="sf-closed">▸ 3 个小步骤，点开看</button>
+              <button type="button" class="sf-closed">▸ 3 个 Steps，点开看</button>
               <ol class="sf-steps">
-                <li><button type="button" class="sf-box" data-k="k21"><b>2.1 plan，再 apply</b><span class="st todo">⬜ 待做</span><span class="sub">建对象 A、B</span></button></li>
-                <li><button type="button" class="sf-box" data-k="k22"><b>2.2 先看 Happy path</b><span class="st todo">⬜ 待做</span><span class="sub">A 预期成功</span></button></li>
-                <li><button type="button" class="sf-box" data-k="k23"><b>2.3 再看失败的情况</b><span class="st todo">⬜ 待做</span><span class="sub">B 预期失败</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k21"><b>Step 2.1 plan，再 apply</b><span class="st">✅ 做完</span><span class="sub">⏰ 等 Pipeline 跑完 · 用了 9 分 40 秒</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k22"><b>Step 2.2 先看 Happy path</b><span class="st">🟡 在做</span><span class="sub">A 预期成功</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k23"><b>Step 2.3 再看失败的情况</b><span class="st">⬜ 待做</span><span class="sub">B 预期失败</span></button></li>
               </ol>
             </div>
           </div>
 
           <div class="sf-row wait-row">
             <div class="sf-left">
-              <button type="button" class="sf-box sf-big wait" data-k="s3"><b>3 清理</b><span class="st team">⏳ 等审批</span><span class="sub">2 个小步骤</span></button>
+              <button type="button" class="sf-box sf-big wait" data-k="s3"><b>Stage 3 清理</b><span class="st">⬜ 待做</span><span class="sub">要等别人审批</span></button>
               <span class="sf-line"></span>
             </div>
             <div class="sf-group">
-              <button type="button" class="sf-closed">▸ 2 个小步骤，点开看</button>
+              <button type="button" class="sf-closed">▸ 2 个 Steps，点开看</button>
               <ol class="sf-steps">
-                <li><button type="button" class="sf-box wait" data-k="k31"><b>3.1 请人审批</b><span class="st team">⏳ 等审批</span><span class="sub">要别人点批准</span></button></li>
-                <li><button type="button" class="sf-box wait" data-k="k32"><b>3.2 删掉测试资源</b><span class="st team">⏳ 等审批</span><span class="sub">批了以后再删</span></button></li>
+                <li><button type="button" class="sf-box wait" data-k="k31"><b>Step 3.1 请人审批</b><span class="st">⬜ 待做</span><span class="sub">要别人点批准</span></button></li>
+                <li><button type="button" class="sf-box wait" data-k="k32"><b>Step 3.2 删掉测试资源</b><span class="st">⬜ 待做</span><span class="sub">批了以后再删</span></button></li>
               </ol>
             </div>
           </div>
         </div>
-        <div class="dt"><p class="hint">点任意方块，这里显示做什么、预期是什么；命令旁边有“复制”按钮。</p></div>
+        <div class="dt"><p class="hint">点任意方块，这里显示做什么、预期是什么和用时；命令旁边有“复制”按钮。</p></div>
       </div>
     </div>
   </section>
@@ -108,22 +108,22 @@
 
 <footer>
   <div class="wrap">
-    参考图 · 2026-11-09
+    参考图 · 2026-11-09 · 2026-11-16 改成 Stage / Steps，加用时
   </div>
 </footer>
 
 <script type="application/json" id="details">
 {
-  "s1": ["1 准备", [["做什么", "拿到最新代码，登录测试环境"], ["为什么", "后面的步骤都要用这两样"]]],
-  "s2": ["2 测试", [["用哪些对象", "A（Happy path）、B（失败的情况）"], ["证明什么", "正常的通过，不正常的被抓出来"]]],
-  "s3": ["3 清理", [["做什么", "审批以后删掉测试资源"], ["为什么要等", "删除要别人批准"]]],
-  "k11": ["1.1 拉代码", [["在哪", "本机终端"], ["命令", "git pull", "cmd"]]],
-  "k12": ["1.2 登录", [["做什么", "登录到测试环境"]]],
-  "k21": ["2.1 plan，再 apply", [["先 plan", "terraform plan -out=test.tfplan", "cmd"], ["plan 预期", "2 to add、0 to change、0 to destroy"], ["再 apply", "terraform apply test.tfplan", "cmd"]]],
-  "k22": ["2.2 先看 Happy path", [["预期", "A 成功"]]],
-  "k23": ["2.3 再看失败的情况", [["预期", "B 失败，原因写在结果里"]]],
-  "k31": ["3.1 请人审批", [["找谁", "有权限批准的人"]]],
-  "k32": ["3.2 删掉测试资源", [["命令", "terraform destroy", "cmd"], ["预期", "测试资源都删掉"]]]
+  "s1": ["Stage 1 准备", [["做什么", "拿到最新代码，登录测试环境"], ["为什么", "后面的步骤都要用这两样"], ["用时", "2026-11-09 周一 · 开始 14:00:10 · 结束 14:14:30 · 用了 14 分 20 秒"], ["⏰ 最久的 Step", "Step 1.2 等人登录，14 分 05 秒"]]],
+  "s2": ["Stage 2 测试", [["用哪些对象", "A（Happy path）、B（失败的情况）"], ["证明什么", "正常的通过，不正常的被抓出来"], ["用时", "2026-11-09 周一 · 开始 14:14:30 · 还没结束"]]],
+  "s3": ["Stage 3 清理", [["做什么", "审批以后删掉测试资源"], ["为什么要等", "删除要别人批准"]]],
+  "k11": ["Step 1.1 拉代码", [["在哪", "本机终端"], ["命令", "git pull", "cmd"], ["用时", "2026-11-09 周一 · 开始 14:00:10 · 结束 14:00:25 · 用了 0 分 15 秒"]]],
+  "k12": ["Step 1.2 登录", [["做什么", "登录到测试环境"], ["用时", "2026-11-09 周一 · 开始 14:00:25 · 结束 14:14:30 · 用了 14 分 05 秒"], ["⏰ 等了多久", "等人登录 13 分 50 秒"]]],
+  "k21": ["Step 2.1 plan，再 apply", [["先 plan", "terraform plan -out=test.tfplan", "cmd"], ["plan 预期", "2 to add、0 to change、0 to destroy"], ["再 apply", "terraform apply test.tfplan", "cmd"], ["用时", "2026-11-09 周一 · 开始 14:14:30 · 结束 14:24:10 · 用了 9 分 40 秒"], ["⏰ 等了多久", "等 Pipeline 跑完 8 分 30 秒"]]],
+  "k22": ["Step 2.2 先看 Happy path", [["预期", "A 成功"], ["用时", "2026-11-09 周一 · 开始 14:24:10 · 还没结束"]]],
+  "k23": ["Step 2.3 再看失败的情况", [["预期", "B 失败，原因写在结果里"]]],
+  "k31": ["Step 3.1 请人审批", [["找谁", "有权限批准的人"]]],
+  "k32": ["Step 3.2 删掉测试资源", [["命令", "terraform destroy", "cmd"], ["预期", "测试资源都删掉"]]]
 }
 </script>
 
