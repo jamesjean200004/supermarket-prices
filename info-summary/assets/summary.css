@@ -233,12 +233,6 @@ table.tbl code { background: transparent; padding: 0; }
 .sf-box .sub { display: block; grid-column: 1 / -1; font-size: 15px; color: var(--muted); overflow-wrap: anywhere; }
 /* status goes first, before the title (2026-11-10 Human); min-width keeps titles in one group lined up */
 .sf-box .st { grid-column: 1; grid-row: 1; min-width: 5em; margin-right: 12px; font-size: 15px; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-.sf-box .st::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--green-dot); }
-.sf-box .st.team::before { background: var(--purple-dot); }
-.sf-box .st.todo::before { background: var(--blue); }
-.sf-box .st.warn::before { background: var(--yellow-dot); }
-.sf-box .st.risk::before { background: var(--red-dot); }
-.sf-box .st.wait::before { background: transparent; box-shadow: inset 0 0 0 2px var(--ring); }
 .sf-box.wait { background: #fff8e1; border-style: dashed; border-color: var(--yellow-dot); }
 .sf-box.sel { box-shadow: 0 0 0 3px var(--blue-light); }
 .sf-box.hit { box-shadow: 0 0 0 3px var(--yellow-dot); }

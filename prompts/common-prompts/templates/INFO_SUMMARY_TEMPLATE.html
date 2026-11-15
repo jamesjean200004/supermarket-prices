@@ -17,7 +17,8 @@
   Do not add a <style> block or JS here; the only script allowed is the JSON block id="details".
   Rules: prompts/common-prompts/rules/INFO_SUMMARY_HTML_RULES.md + HTML_PAGE_RULES.md
   Five fixed blocks in order: 结论 → 主图 → 状态 → 时间线 → Q&A, sources in the footer. A section the Human asks for is its own block on top of the five (default place: between 时间线 and Q&A).
-  Status dots: ok = 完成 (green), warn = 待确认 (yellow), team = 要团队 (purple), wait = 待做 (hollow grey), risk = 先处理 (red).
+  Step flows: put the status emoji and its meaning first on every step; no status legend is needed.
+  Status lists and non-step diagrams may use status dots and their legend.
   Clickable blocks: give them data-k="key" and add the key to the JSON block id="details" at the bottom.
   Searchable rows: add data-s.
   Page table of contents: summary.js adds 目录 as the first nav item by itself, built from each section's <h2> and each figure title
@@ -127,7 +128,7 @@
           <p class="eyebrow">另一个任务（没有就删掉）</p>
           <p class="ty-big">约 2～3 周后。</p>
           <p class="lead ty-lede g">一句话现状。</p>
-          <div class="steps"><span>第一步</span><i>→</i><span>第二步</span><i>→</i><span>第三步</span></div>
+          <div class="steps"><span>✅ 做完 · 第一步</span><i>→</i><span>🟡 在做 · 第二步</span><i>→</i><span>⬜ 待做 · 第三步</span></div>
         </div>
 
         <div class="card rv">

@@ -19,8 +19,8 @@
       each big step has its own grey group (.sf-group) of small steps on the right.
     - Small steps are folded by default. Clicking a big step opens or closes its group; the 全部展开 button opens or
       closes all groups; search opens a group when one of its small steps matches.
-    - Status: <span class="st todo">能做</span> (green), class "team" purple (waiting for someone), "warn" yellow, "risk" red,
-      "wait" hollow. A step that waits for someone else gets class "wait" on its box and "wait-row" on its row.
+    - Status: put an emoji and its meaning first, e.g. <span class="st todo">⬜ 待做</span>.
+      A step waiting for someone else gets class "wait" on its box and "wait-row" on its row.
     - Every box has data-k; what to do and the expected result go in the JSON block id="details".
       A row ["命令", "the command", "cmd"] shows the command with a 复制 button. Commands sit in the small step they
       belong to; there is no separate list of all commands.
@@ -58,52 +58,46 @@
 
           <div class="sf-row">
             <div class="sf-left">
-              <button type="button" class="sf-box sf-big" data-k="s1"><b>1 准备</b><span class="st todo">能做</span><span class="sub">2 个小步骤</span></button>
+              <button type="button" class="sf-box sf-big" data-k="s1"><b>1 准备</b><span class="st todo">⬜ 待做</span><span class="sub">2 个小步骤</span></button>
               <span class="sf-line"></span>
             </div>
             <div class="sf-group">
               <button type="button" class="sf-closed">▸ 2 个小步骤，点开看</button>
               <ol class="sf-steps">
-                <li><button type="button" class="sf-box" data-k="k11"><b>1.1 拉代码</b><span class="st todo">能做</span><span class="sub">git pull</span></button></li>
-                <li><button type="button" class="sf-box" data-k="k12"><b>1.2 登录</b><span class="st todo">能做</span><span class="sub">登录到测试环境</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k11"><b>1.1 拉代码</b><span class="st todo">⬜ 待做</span><span class="sub">git pull</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k12"><b>1.2 登录</b><span class="st todo">⬜ 待做</span><span class="sub">登录到测试环境</span></button></li>
               </ol>
             </div>
           </div>
 
           <div class="sf-row">
             <div class="sf-left">
-              <button type="button" class="sf-box sf-big" data-k="s2"><b>2 测试</b><span class="st todo">能做</span><span class="sub">用对象 A、B</span></button>
+              <button type="button" class="sf-box sf-big" data-k="s2"><b>2 测试</b><span class="st todo">⬜ 待做</span><span class="sub">用对象 A、B</span></button>
               <span class="sf-line"></span>
             </div>
             <div class="sf-group">
               <button type="button" class="sf-closed">▸ 3 个小步骤，点开看</button>
               <ol class="sf-steps">
-                <li><button type="button" class="sf-box" data-k="k21"><b>2.1 plan，再 apply</b><span class="st todo">能做</span><span class="sub">建对象 A、B</span></button></li>
-                <li><button type="button" class="sf-box" data-k="k22"><b>2.2 先看 Happy path</b><span class="st todo">能做</span><span class="sub">A 预期成功</span></button></li>
-                <li><button type="button" class="sf-box" data-k="k23"><b>2.3 再看失败的情况</b><span class="st todo">能做</span><span class="sub">B 预期失败</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k21"><b>2.1 plan，再 apply</b><span class="st todo">⬜ 待做</span><span class="sub">建对象 A、B</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k22"><b>2.2 先看 Happy path</b><span class="st todo">⬜ 待做</span><span class="sub">A 预期成功</span></button></li>
+                <li><button type="button" class="sf-box" data-k="k23"><b>2.3 再看失败的情况</b><span class="st todo">⬜ 待做</span><span class="sub">B 预期失败</span></button></li>
               </ol>
             </div>
           </div>
 
           <div class="sf-row wait-row">
             <div class="sf-left">
-              <button type="button" class="sf-box sf-big wait" data-k="s3"><b>3 清理</b><span class="st team">等审批</span><span class="sub">2 个小步骤</span></button>
+              <button type="button" class="sf-box sf-big wait" data-k="s3"><b>3 清理</b><span class="st team">⏳ 等审批</span><span class="sub">2 个小步骤</span></button>
               <span class="sf-line"></span>
             </div>
             <div class="sf-group">
               <button type="button" class="sf-closed">▸ 2 个小步骤，点开看</button>
               <ol class="sf-steps">
-                <li><button type="button" class="sf-box wait" data-k="k31"><b>3.1 请人审批</b><span class="st team">等审批</span><span class="sub">要别人点批准</span></button></li>
-                <li><button type="button" class="sf-box wait" data-k="k32"><b>3.2 删掉测试资源</b><span class="st team">等审批</span><span class="sub">批了以后再删</span></button></li>
+                <li><button type="button" class="sf-box wait" data-k="k31"><b>3.1 请人审批</b><span class="st team">⏳ 等审批</span><span class="sub">要别人点批准</span></button></li>
+                <li><button type="button" class="sf-box wait" data-k="k32"><b>3.2 删掉测试资源</b><span class="st team">⏳ 等审批</span><span class="sub">批了以后再删</span></button></li>
               </ol>
             </div>
           </div>
-        </div>
-        <div class="legend">
-          <span>左边深蓝框：大步骤，点它展开小步骤</span>
-          <span><i class="dot todo"></i>蓝点：能做</span>
-          <span><i class="dot team"></i>紫点：要等别人</span>
-          <span><i class="dot warn"></i>黄色虚线框和虚线：要等别人的步骤</span>
         </div>
         <div class="dt"><p class="hint">点任意方块，这里显示做什么、预期是什么；命令旁边有“复制”按钮。</p></div>
       </div>
