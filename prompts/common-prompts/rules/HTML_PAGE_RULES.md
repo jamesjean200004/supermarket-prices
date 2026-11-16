@@ -102,7 +102,7 @@
 - **能搜**：导航栏里放小搜索框；搜索时过滤和高亮匹配的内容，自动展开命中的收起内容，图里相关的方块也高亮。
 - **按问题写**：查找类内容写成"问题 | 答案"，问题用 Human 会搜的说法写，例如"Prod pipeline 的 identity 叫什么？"。
 - **方便复制**：名字、ID、命令用 `code` 样式显示，点一下就能复制。命令（`<code class="cmd">`，或详情数据里写成 `[字段, 命令, "cmd"]`）旁边还有一个“复制”按钮，点一下复制到剪贴板（2026-11-09 Human）。命令放在它所属的 Step 里，不另做一个“所有命令”清单。
-- **资源链接直达那一页**：页面里提到 Human 可能要去看或操作的东西（Azure resource、Pipeline run、PR、ticket、ADO / GitHub 页面等），链接直接打开这个东西的那一页，例如 Azure Portal 里某个 Vault 的 Backup instances 页；不只链到首页或列表页，让 Human 自己再找。Azure Portal 链接写上 tenant 和完整的 resource ID。为什么：Human 点一下就到要看的地方（2026-11-16 Human 说这样做得非常好）。
+- **资源链接直达那一页**：页面里提到 Human 可能要去看或操作的东西（Azure resource、Pipeline run、PR、ticket、ADO / GitHub 页面等），链接直接打开这个东西的那一页，例如 Azure Portal 里某个 Vault 的 Backup instances 页；不只链到首页或列表页，让 Human 自己再找。Azure Portal 链接写上 tenant 和完整的 resource ID。为什么：Human 点一下就到要看的地方（2026-11-16 Human 说这样做得非常好）。要 Human 跑 pipeline 的步骤，链接直达这个 pipeline，参数照 `AGENTS.md` 的 `只有 Human 能做的事 section` 写：一个参数一行，选的 `✅ True`，不选的 `❌ False`（2026-11-17 Human 定）。
 
 ### 文件和交付
 
