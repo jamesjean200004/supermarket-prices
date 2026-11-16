@@ -44,9 +44,10 @@ h1, h2, p { margin: 0; }
 /* local nav */
 .nav { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(0,0,0,.08); }
 .nav .wrap { display: flex; align-items: center; gap: 28px; height: 52px; }
-.nav .brand { font-family: var(--display); font-size: 21px; font-weight: 600; letter-spacing: .011em; white-space: nowrap; }
+/* nav links never wrap: a narrow window shortens the title (…) instead of stacking 中文 one character per line (2026-11-16) */
+.nav .brand { font-family: var(--display); font-size: 21px; font-weight: 600; letter-spacing: .011em; white-space: nowrap; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .nav .links { display: flex; align-items: center; gap: 24px; margin-left: auto; }
-.nav .links a { color: var(--ink); font-size: 16px; opacity: .8; transition: opacity 200ms; }
+.nav .links a { color: var(--ink); font-size: 16px; opacity: .8; transition: opacity 200ms; white-space: nowrap; }
 .nav .links a:hover { opacity: 1; text-decoration: none; }
 .nav input { width: 180px; min-width: 0; font: inherit; font-size: 16px; border: none; border-radius: 8px; background: var(--grey); padding: 6px 12px; color: var(--ink); outline: none; }
 .nav input:focus { box-shadow: 0 0 0 2px var(--blue); background: #fff; }
@@ -58,7 +59,7 @@ h1, h2, p { margin: 0; }
 .count { font-size: 16px; color: var(--muted); white-space: nowrap; }
 /* page table of contents (built by summary.js as the first nav item) */
 .toc { position: relative; }
-.toc-b { font: inherit; font-size: 16px; color: var(--ink); opacity: .8; background: none; border: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: opacity 200ms; }
+.toc-b { font: inherit; font-size: 16px; color: var(--ink); opacity: .8; background: none; border: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: opacity 200ms; white-space: nowrap; }
 .toc-b::after { content: "▾"; font-size: 12px; transition: transform 300ms var(--ease); }
 .toc-b:hover, .toc.open .toc-b { opacity: 1; }
 .toc.open .toc-b::after { transform: rotate(180deg); }
