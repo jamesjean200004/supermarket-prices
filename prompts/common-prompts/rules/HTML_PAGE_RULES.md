@@ -23,7 +23,7 @@
   - **关系图太大**：大组超过 5 个，或箭头交叉多到对不上时，拆成两张：一张画全貌，一张画其中一块的细节。
 - **块要少**：顶层块越少越好；放不下的信息放进已有的块里默认收起，不另开新块。
 - **文字密度要轻**：每一格、每一行尽量 1～2 句；长的说明放进点击展开或详情面板。
-- **名字写具体**：resource、subscription、identity、repo 等写完整的名字和 ID；不知道的写 `UNKNOWN` / `UNVERIFIED`，不猜。
+- **名字写具体**：resource、subscription、identity、repo 等写完整的名字和 ID，每次都写全，不用 `Sub A`、`A 的 RG` 这类代称（见 `AGENTS.md` 的 `名字写全，不用代称`）；不知道的写 `UNKNOWN` / `UNVERIFIED`，不猜。
 - **用词**：给 Human 自己看的页面，技术名词、Azure 等平台的 resource / service 名称和术语用 English，其余用中文；给团队看的页面全部用 English。
 
 ### 常用图形
