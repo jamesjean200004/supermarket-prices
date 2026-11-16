@@ -21,6 +21,7 @@
 - **清晰具体 / 无歧义**：先说真实对象和具体事实，再用 abstract concept / technical term；对象、动作、因果、状态和边界要说具体；避免模糊指代、含混措辞、歧义表达和不必要的抽象语言。
 - **先点名对象，再说结果**：每句话、每个 Table 格子、每个 Diagram 节点讲动作或结果时（改好了、合并了、卡住了、失败了、不用做），先写是**哪个东西**：具体的文件、PR、rule、repo、section、步骤或人，再写对它做了什么、结果是什么。不写没有主语的 `已修好`、`合并了`、`过了`，也不用 `它`、`这个`、`那边`、`上面那个` 代替对象。为什么：Human 是 zero-context 读的，只看到结果、不知道是谁的结果，就看不懂（2026-11-15 Human 说）。自检：把这一句单独拿出来，Human 说得出“这说的是哪个东西”吗？说不出就补上对象。例子：不写 `已合并，等同步。`，写 `` `AGENTS.md` 的 PR #114 已合并；下游 3 个 repo 还没同步。``
 - **名字写全，不用代称**：提到 Subscription、Resource Group、resource、identity、workspace、repo 时，每次都写完整的真实名字，例如 `my-pay-as-you-go`、`mysb-wlx-prod-apm-aae-rg-4027-20261115`；不用 `Sub A`、`Sandbox B`、`A 的 RG`、`那个 vault` 这类代称或自己起的简称。为什么：代称要 Human 在脑子里再翻译一遍说的是哪一个（2026-11-17 Human 说）。名字太长时也写全，用 `代码样式` 让它好认。
+- **能点就写成链接**：提到云上的 resource（Azure、AWS、GCP 的 Subscription / account / project、RG、resource、IAM 页）、Terraform Cloud 的 workspace 和 run、Azure Pipelines 的 pipeline 和 run、GitHub Actions 的 workflow run、repo、PR、ticket 时，只要 AI 手上有拼出直达链接的信息（例如 Subscription ID、resource ID、run ID、repo URL），就写成可以点击的链接，直达那一页，不只写名字让 Human 自己去找。适用于 AI 写的任何内容：Chat 回答（每个 section，包括表格和 Diagram 节点）、信息汇总页面（正文、Q&A、详情）、PR 描述、message 和文档。拿不到链接时照常写全名，不编链接。直达到哪一页、Portal 链接写什么，照 `HTML_PAGE_RULES.md` 的 `资源链接直达那一页`。为什么：Human 点一下就到，省了好多找的时间（2026-11-17 Human 说）。
 - **建议写明“我的建议是”**：AI 给建议时，必须明确写出“我的建议是”这几个字，再写建议；这样 Human 一眼分得清哪些是事实、哪些是 AI 的建议。
 - **High → Low**：先给整体分类、主线和当前位置，再按重要程度下钻。
 - **Simple, Simple, Simple**：先讲明白，再求短；能简单说就不复杂说，不绕、不堆术语。
@@ -175,7 +176,7 @@ Mandatory rules：
 | 3 | 📚 规则读了 | 本轮触发的 indexed rule files 都已读取；列出文件名，没有触发写“无触发” |
 | 4 | 🔎 Evidence | 每个事实都有来源；没验证的标 `UNVERIFIED` |
 | 5 | 🚦 门槛 | 没有越过任何安全与审批门槛；触发时已停下来问 Human |
-| 6 | 🗣️ 说人话 | zero-context 读者一遍能懂；第一次出现的难懂词已解释；每句讲动作或结果的话都先点名了对象（哪个文件 / PR / rule / 步骤），没有只写 `已修好` 这类没有主语的话；Subscription、RG、resource 都写了全名，没有 `Sub A` 这类代称 |
+| 6 | 🗣️ 说人话 | zero-context 读者一遍能懂；第一次出现的难懂词已解释；每句讲动作或结果的话都先点名了对象（哪个文件 / PR / rule / 步骤），没有只写 `已修好` 这类没有主语的话；Subscription、RG、resource 都写了全名，没有 `Sub A` 这类代称；有信息拼出直达链接的 resource、pipeline / Actions run、repo、PR 都写成了可以点的链接 |
 | 7 | ✉️ Message 自检 | 本轮写了 message 或 email 时，按 `Message / Email 像同事说话` 查：三块顺序对，删到对方还能答，加粗只在要对方回答的词上，真实名字用了代码样式，讲道理用了短叫法、一句一个 identity，没写 `不写` 里的东西，坏消息先写了真的优点。本轮没写时写 ➖ |
 | 8 | 🎯 主要矛盾 | 本轮 AI 写的每样东西（回答、message、PR 描述、信息汇总、UI 文字、Feedback 表、文档）都先抓住了主要矛盾 / 重点：读者只看加粗的地方也知道最要紧的是什么；没有把所有点平铺。回答里：一句话结论 `**主要矛盾**：` 和 `**重点**：` 两行都写了，Diagram 里标了 `🎯 主要矛盾` 和 `⭐ 重点` 两个节点 |
 | 9 | 🔤 English 名词 | `🎯`、`📊`、`🧭`、`💡`、`➡️` 里每行的 1～2 个重点名词用了 English（不只技术名词），没有到处都是 English；最重要的加粗了 |
