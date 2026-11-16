@@ -262,7 +262,7 @@ table.tbl code { background: transparent; padding: 0; }
   .sf-row:not(:last-child) { padding-bottom: 22px; border-bottom: 1px solid var(--line); margin-bottom: 22px; }
   .sf-left { align-self: auto; }
   .sf-line, .sf-big::after { display: none; }
-  .sf-group { margin-left: 6px; padding-right: 8px; }
+  .sf-group { margin-left: 28px; padding-right: 8px; } /* Steps clearly indented under their Stage on phones (2026-11-16 Human) */
 }
 
 /* timeline: past solid, now blue, future hollow */

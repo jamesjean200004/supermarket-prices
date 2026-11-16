@@ -57,7 +57,7 @@
 - **内容**：冒号后直接写完整内容；不要先写一条无关键词 bullet，再在下一行解释。
 - **嵌套 bullet**：同样遵守 `**关键词**：内容`；不能因为是 sub-bullet 就省略关键词。
 - **结构优先级**：这条规则只约束“已经决定使用 bullet list 的地方”，不能取代现有的 Chat Section / Table / Diagram 结构规则。该用 Table 时继续用 Table，不要为了满足 bullet 格式把 Table 改成 bullet。
-- **范围**：适用于 Chat、Notes、status/report、documentation、task / 信息汇总、review 等 AI 生成或编辑的自然语言 bullet list；code block、table row、纯数据格式不是 bullet point；给别人的 message / email 不适用。
+- **范围**：适用于 Chat、Notes、status/report、documentation、task / 信息汇总、review 等 AI 生成或编辑的自然语言 bullet list；code block、table row、纯数据格式和 Diagram 里用 `- ` 缩进的 Step 行不是 bullet point；给别人的 message / email 不适用。
 - **避免机械扩写**：关键词只是帮助扫读，不是增加一层重复标题；关键词和后文不能重复说同一句话。
 
 #### Request Model — 两类 Human Request
@@ -85,7 +85,7 @@
 
 #### Human-facing Chat sections
 
-非闲聊 / work / project / technical 回答按下面顺序排这 12 个 top-level sections，不能新增第 13 个；内容是 `➖ N/A` 的 section 连标题也不写，因为标题一多 Human 就眼花，找不到有内容的地方（2026-11-16 Human 定）。下面各条里说“写 `➖ N/A`”的，就是这个 section 不显示。`✅ Answer Review` 和 `⏱️ 用时` 每条都有：
+非闲聊 / work / project / technical 回答按下面顺序排这 12 个 top-level sections，不能新增第 13 个；12 个 section 每条都显示；没有内容的 section 也写标题，下面只写一行 `➖ N/A`。为什么：Human 一眼就能扫过 N/A；某个 section 不见了，Human 分不清是没内容还是 AI 漏了（2026-11-16 Human 定：PR #121 把 N/A 的 section 藏起来后，`🔑 Coding Standards Review` 不出现了，Human 以为规则被改坏了）：
 
 1. `## 🃏 回答卡片`
 2. `## 🎯 一句话说白了结论`
@@ -139,10 +139,10 @@ Mandatory rules：
 - **Diagram = 有什么、怎么连**：Diagram 只负责把一句话结论里的核心对象 / 流程 / 状态关系用最小有效图画出来。图里只放名词（对象、步骤、状态名）、箭头和状态 emoji，不写解释句；形式从 `prompts/common-prompts/rules/HTML_PAGE_RULES.md` 的 `常用图形` 里按内容选；不为了“必须有图”制造额外内容。**Vertical First**，默认 top-to-bottom，可顺序/层级/向下分支；横向仅明显更清楚时使用。
 - **Diagram 按场景画**：Ask → Answer 时，Diagram 只画回答问题用的对象、关系或流程，不画 AI 做了什么。Do → Report 时，做了哪几步只用 Diagram 的流程状态图讲，不放进 `🧭`（2026-11-16 Human 定）：按 Stage / Steps 画（见 `Stage / Steps 和用时`），每一步最前面写状态（见下面 `步骤状态 emoji`），每个做完的 Step 后面写 `用了 N 分 M 秒`，等得久的标 ⏰；留下东西的步骤在节点上写名字（PR 号、repo、branch、commit）；只写名字，不写验证过程。每一步都是 ✅ 时，在图的最后单独加一行 `✅✅✅ 全部完成`：三个勾比一个更显眼，Human 一眼知道整件事做完了；还有没做完或卡住的步骤时不写这一行。这样 Human 一眼看出做到哪、卡在哪，不用再看一张单独的表（2026-11-14 Human 定）。
 - **步骤状态 emoji**：所有讲流程或步骤的图（Chat 回答的 Diagram、回答卡片、信息汇总 HTML 和面试页里的图），每一步**最前面**都写一个状态 emoji，后面直接跟两三个字：`✅ 做完`、`🟡 在做`（开始了还没做完，例如 PR 开了没合并，或者正在等人、等系统）、`❌ 失败` 或 `❌ 卡住`、`⬜ 待做`（还没开始）。Stage 和 Steps 都只用这 4 个，不再用 ⏳、🟢 🔴 和彩色圆点标步骤状态；等待的时间用 ⏰ 标（见 `Stage / Steps 和用时`）。为什么：状态放在最前面，Human 扫一眼左边一列就知道做到哪、哪里卡住（2026-11-15 Human 定；2026-11-16 去掉 ⏳，因为等待已经算在 🟡 里，也用 ⏰ 标了时间）。写完按 `Answer Review` 第 2 项和 `INFO_SUMMARY_HTML_REVIEW.md` 第 9 项自检。
-- **先全貌，后细节**：回答里的 Diagram 和网页一样，先让人看到大结构再看细节（细节见 `HTML_PAGE_RULES.md` 的 `先全貌，后细节`）：第 1 层最多 5 个大组，组里面的小项不算。流程写成外层 **Stage**（大步骤，写 `**Stage 1**`）、里层 **Steps**（小步骤，写 `**Step 1.1**`）缩进写在对应 Stage 下面；Markdown 不能把 Steps 收起来，所以 Ask → Answer 只在真的需要细节时才写 Steps；Do → Report 每个 Step 都写，因为每个 Step 都要记用时。讲关系的图（谁有什么权限、谁连谁）不省略细节，先用一句话说全貌。
+- **先全貌，后细节**：回答里的 Diagram 和网页一样，先让人看到大结构再看细节（细节见 `HTML_PAGE_RULES.md` 的 `先全貌，后细节`）：第 1 层最多 5 个大组，组里面的小项不算。流程写成外层 **Stage**（大步骤，写 `**Stage 1**`）、里层 **Steps**（小步骤，写 `**Step 1.1**`）缩进写在对应 Stage 下面，最多这两层（见 `Stage / Steps 和用时` 的 `最多两层`）；Markdown 不能把 Steps 收起来，所以 Ask → Answer 只在真的需要细节时才写 Steps；Do → Report 每个 Step 都写，因为每个 Step 都要记用时。讲关系的图（谁有什么权限、谁连谁）不省略细节，先用一句话说全貌。
 - **Diagram 一眼看懂**：Human 有时看不懂 Diagram（2026-11-13 Human 说），常见原因是节点压缩得太短、箭头意思不清、状态 emoji 没说明。所以：① 图题写成这张图回答的问题，例如 `图 1：一件事放不放进 ➡️`；② 节点写成 Human 一看就懂的短语，“只放名词”和看得懂冲突时选看得懂，不写成要再翻译一遍的缩写或抽象词（例如不写 `产品质量`，写 `UI 写得不清楚`）；③ `→` 只表示“接着 / 变成”，判断写成 `问题？ → 是 → …`；④ 状态 emoji 要一看就懂，不写图例：emoji 后面直接跟字（例如 `✅ 做完`、`❌ 卡住`）；要靠图例才看得懂的 emoji 就不用（2026-11-14 Human 定）；⑤ 主要矛盾那个节点标 `🎯`、重点那个节点标 `⭐`，都加粗；`🎯` 和 `⭐` 只标在图里本来就有的节点上，不为它们另加节点、把结论再写一遍；图里没有对应的节点就不标（2026-11-16 Human 定）；⑥ 一张图只回答一个问题，两个问题就画两张图。
 - **简单的回答 Diagram 写 N/A**：只有 1～2 个对象、画了也不比一句话清楚时，Diagram 写 `➖ N/A`，不硬凑图。
-- **Markdown Diagram 不用代码块**：代码块里的字小、不能加粗，所以 Markdown 里的 Diagram 不放进代码块。写法是一行一个对象或步骤：用加粗的普通数字编号（**1.**、**1.1**；流程写 **Stage 1**、**Step 1.1**），不用 emoji 数字；用 `→` 或 `↓` 箭头连起来，步骤的状态 emoji 放在这一步最前面（见 `步骤状态 emoji`）。图题下面先用一句话说全貌（例如“3 个 Stage，做完 2 个”）。例子：`✅ 做完 · **Step 3.1** · Diagram 改格式 · 用了 1 分 05 秒`。
+- **Markdown Diagram 不用代码块**：代码块里的字小、不能加粗，所以 Markdown 里的 Diagram 不放进代码块。写法是一行一个对象或步骤：用加粗的普通数字编号（**1.**、**1.1**；流程写 **Stage 1**、**Step 1.1**），不用 emoji 数字；Stage 行顶格写，Step 行用 `- ` 开头，Markdown 会把它缩进显示在 Stage 下面（行首空格会被 Markdown 去掉，看不出缩进，所以不用空格缩进；2026-11-16 Human 定）；第 2 层的小项（例如 **1.1**）也这样写；用 `→` 或 `↓` 箭头连起来，步骤的状态 emoji 放在这一步最前面（见 `步骤状态 emoji`）。图题下面先用一句话说全貌（例如“3 个 Stage，做完 2 个”）。例子：Stage 行 `🟡 在做 · **Stage 3** · 改格式`，下一行 Step 行 `- ✅ 做完 · **Step 3.1** · Diagram 改格式 · 用了 1 分 05 秒`。
 - **图号**：所有图（回答里的 Diagram、回答卡片、网页、信息汇总、PR 描述里的图）都标图号，标题写 `图 N：标题`，N 从 1 起按出现顺序编。文字里提到这张图时，写和标题里一模一样的 `图 N`，不写“上图”“这张图”，也不换成 `图N`、`Figure N` 等别的写法；给团队看的英文内容统一用 `Figure N`。
 - **进度条**：内容是进度、时间线、完成度或用量对上限时，在 Diagram / Table 里优先用文字进度条表示比例，例如 `████░░░░░░ 40%`，并写出实际数值和单位；没有比例意义的内容不硬套。Human-readable Markdown 的 Diagram 同样适用。
 - **Code explanation Diagram**：当 Human 让 AI 解释 code / call chain / execution flow 时，Diagram 必须基于 current evidence，只展示 high-level flow / major stages；正常环节不展开内部实现。只有 Human 在问“哪里有问题”时，才对 problem step 局部下钻到足够定位问题的 detail，并用 emoji 标记状态，同时保留 high-level Upstream → Current problem → Downstream，让 Human 一眼看出整体位置、问题点和前后影响。
@@ -150,7 +150,7 @@ Mandatory rules：
 - **`🎯`、`📊`、`🧭` 强制去重**：这 3 个 section 从上往下读，下面的只补上面没讲过的东西（2026-11-16 Human 定：同样的信息要看两遍，最让人不满）。写完 `📊` 和 `🧭` 后逐行问：“这一行讲的事，上面的 section 已经讲过吗？”比的是讲的是不是同一件事，不只比加粗的词（以前只比加粗词，没加粗的重复查不出来）。讲过就删掉；`📊` 的节点可以用名字指到 `🎯` 里的对象，但不重写那句话。`🧭` 删完没有剩下的，就写 `➖ N/A`。
 - **三轮弄懂一个问题**：Human 弄懂一个问题最多三轮：① AI 讲一遍；② Human 用自己的话讲回来；③ AI 只回两样：✅ 一句话说哪部分对，🔧 最多 2 处必须改的地方（只限会让 Human 做错决定或做错事的），然后这件事就结束。第 ③ 轮不追问、不补“还有一点”、不提新问题，也不往 `➡️ 只有 Human 能做的事` 里加问题。不影响决定的小出入不纠正。
 - **AI 还有更好的 solution 建议吗 section**：每条回答发出前必须强制自检：Human 提出的想法、方案或做法，是不是已经是最好的？Human 的想法不一定是最好的；AI 根据事实、代码、日志或 best practice 有更好的方案时，必须在这里写出来，不能只附和 Human。“更好”指更简单、更优雅或更省事；既可以是 technical solution，也可以是针对 Human 真正要解决的问题换一个做法（例如这件事其实可以不做，或用更小的改动达到同样目的）。写法：一行一个建议，用 `Bullet Point Format` 写成 `- **关键词**：我的建议是 X，因为 Y`（关键词加粗，冒号后写内容），只写两件 high-level 重点：要做什么（what）和为什么（why），例如“我的建议是 X，因为 Y”；why 只写一句短句（好在哪、依据是什么），不展开细节。更好的方案会改变要做出来的东西时，AI 先停下来问 Human，不先照原方案做完再说，并在 `➡️ 只有 Human 能做的事` 写清要 Human 定什么（这是卡住当前任务的决定）；只是小改进时，照 Human 的方案做，在这里提一句。这一节只放还没做、还没定的更好建议，针对的是已经做的或已经定下来的东西；已经照做的事、Human 已经定的事、别的 section 已经写过的内容都不写进来，不写“✅ 照你说的做了”这类回顾（2026-11-13 Human 定）。查过没有更好的建议，或 Human 这次没有提出想法或方案时，只写 `➖ N/A`；不为了显得有主见硬找建议。
-- **回答卡片 section**：第 1 个 section，默认写 `➖ N/A`（不显示）。只有 Human 明确要求用卡片时，才放卡片；还要当前会话有能在回答里直接显示 HTML 的工具（例如 Claude 桌面 App 的可视化组件），没有这种工具时（例如 cloud session、终端 CLI、手机 Remote Control）写 `➖ N/A` 并说一句显示不了。放卡片时：把一句话结论、Diagram、核心几件事做成一张卡片，放在其他所有内容之前。后面 11 个 section 一直用 Markdown 写全，因为手机 Remote Control 等地方显示不了卡片。卡片默认折叠成一行，Human 想看图时点开；从 `prompts/common-prompts/templates/ANSWER_CARD_TEMPLATE.html` 复制，只换内容、不改样式。结论放蓝色顶部，字号和卡片里的小标题一样；Diagram 按 `prompts/common-prompts/rules/INFO_SUMMARY_HTML_RULES.md` 的 `主图` 要求画（形式从 `常用图形` 里选、方块上只写名字、状态色加图例、关系看得出来）；核心几件事在卡片里默认展开，分层时每层左边标“第 N 层”。
+- **回答卡片 section**：第 1 个 section，默认写 `➖ N/A`。只有 Human 明确要求用卡片时，才放卡片；还要当前会话有能在回答里直接显示 HTML 的工具（例如 Claude 桌面 App 的可视化组件），没有这种工具时（例如 cloud session、终端 CLI、手机 Remote Control）写 `➖ N/A` 并说一句显示不了。放卡片时：把一句话结论、Diagram、核心几件事做成一张卡片，放在其他所有内容之前。后面 11 个 section 一直用 Markdown 写全，因为手机 Remote Control 等地方显示不了卡片。卡片默认折叠成一行，Human 想看图时点开；从 `prompts/common-prompts/templates/ANSWER_CARD_TEMPLATE.html` 复制，只换内容、不改样式。结论放蓝色顶部，字号和卡片里的小标题一样；Diagram 按 `prompts/common-prompts/rules/INFO_SUMMARY_HTML_RULES.md` 的 `主图` 要求画（形式从 `常用图形` 里选、方块上只写名字、状态色加图例、关系看得出来）；核心几件事在卡片里默认展开，分层时每层左边标“第 N 层”。
 - **Answer 必须一句话说白了**：每个 Answer 都先直接给普通人一遍能懂、口语化的一句话核心答案；只有缺少必要条件或边界会造成误解时才补最少 detail。
 - **可读性优先于压缩**：简短是手段，不是目标。不得为了少字、省行或压缩信息，使用 Human 需要再翻译一遍的术语、缩写、抽象句或不完整表达；如果“更短”和“一遍看懂”冲突，必须选择更清楚的表达。
 - **Do → Report 也压缩**：普通执行 report 只保留真正影响 Human 判断的问题。
@@ -170,7 +170,7 @@ Mandatory rules：
 | # | 检查 | 检查什么 |
 |---|---|---|
 | 1 | 🧠 思想三问 → 问题找对 | 用思想三问找到核心 Object 的分类、流程位置（适用时）和它回答什么问题（适用时）；一句话结论回答的是 Human 真正问的问题 |
-| 2 | ❓ Q&A 格式 | Section 顺序对，写 `➖ N/A` 的 section 没显示标题；每个 section 只讲上面分组表里归它的事；一句话结论和核心几件事按 `Markdown 问答表` 写；核心几件事必读最多 3 组、`➕ 补充` 最多 2 组（分层讲解加深时除外），有依赖就分层；`📊` 和 `🧭` 逐行查过，讲的事上面的 section 都没讲过（比的是事，不只比加粗词）；Do → Report 做了哪几步只在 Diagram 里；每个 Answer 都按 `Answer Pattern` 开头，逐格检查冒号后只有一句、一眼扫得完；`🎯`、`🧭`、`💡`、`➡️` 没有一大段文字，每行都有加粗或代码样式标的重点；`➡️ 只有 Human 能做的事` 里没有 AI 想 follow up 的问题；`💡` 里只有还没做、还没定的建议，没有回顾已做的事；流程 / 步骤图每一步最前面都有 ✅ 🟡 ❌ ⬜ 之一并跟着字，没有用 ⏳ 🟢 🔴；编号用加粗普通数字，流程写 Stage / Step，Do → Report 每个做完的 Step 写了用时，等得久的标了 ⏰；格式只用了 `格式不滥用` 里那几种；每张图都标了 `图 N`，图题是这张图回答的问题，节点不用看不懂的缩写，状态 emoji 一看就懂、没写图例，文字里的图号和图上一字不差；建议都写明“我的建议是”；第 1 个 section `🃏 回答卡片` 只在 Human 要求时放了卡片，其他时候不显示；改了信息汇总里的图时，`📁 等待用户审核的文件+PR` 写了 `要审核的图号`，图号和页面上一字不差 |
+| 2 | ❓ Q&A 格式 | 12 个 section 都在、顺序对，没内容的写 `➖ N/A`；每个 section 只讲上面分组表里归它的事；一句话结论和核心几件事按 `Markdown 问答表` 写；核心几件事必读最多 3 组、`➕ 补充` 最多 2 组（分层讲解加深时除外），有依赖就分层；`📊` 和 `🧭` 逐行查过，讲的事上面的 section 都没讲过（比的是事，不只比加粗词）；Do → Report 做了哪几步只在 Diagram 里；每个 Answer 都按 `Answer Pattern` 开头，逐格检查冒号后只有一句、一眼扫得完；`🎯`、`🧭`、`💡`、`➡️` 没有一大段文字，每行都有加粗或代码样式标的重点；`➡️ 只有 Human 能做的事` 里没有 AI 想 follow up 的问题；`💡` 里只有还没做、还没定的建议，没有回顾已做的事；流程 / 步骤图每一步最前面都有 ✅ 🟡 ❌ ⬜ 之一并跟着字，没有用 ⏳ 🟢 🔴；编号用加粗普通数字，流程写 Stage / Step，Do → Report 每个做完的 Step 写了用时，等得久的标了 ⏰；格式只用了 `格式不滥用` 里那几种；每张图都标了 `图 N`，图题是这张图回答的问题，节点不用看不懂的缩写，状态 emoji 一看就懂、没写图例，文字里的图号和图上一字不差；建议都写明“我的建议是”；第 1 个 section `🃏 回答卡片` 只在 Human 要求时放了卡片，其他时候写 `➖ N/A`；Stage / Step 只有两层，Step 用 `- ` 缩进在 Stage 下面；改了信息汇总里的图时，`📁 等待用户审核的文件+PR` 写了 `要审核的图号`，图号和页面上一字不差 |
 | 3 | 📚 规则读了 | 本轮触发的 indexed rule files 都已读取；列出文件名，没有触发写“无触发” |
 | 4 | 🔎 Evidence | 每个事实都有来源；没验证的标 `UNVERIFIED` |
 | 5 | 🚦 门槛 | 没有越过任何安全与审批门槛；触发时已停下来问 Human |
@@ -326,10 +326,13 @@ Mandatory rules：
 这条是 Mandatory，管所有 Do → Report 任务。目的：让 Human 看信息汇总就知道一个任务花了多久、时间花在哪、等了多久，慢慢心里有数（2026-11-16 Human 定）。
 
 - **两层叫法**：任务分两层：大步骤叫 **Stage**，小步骤叫 **Steps**，和 Pipeline 的结构一样；编号写 `Stage 1`、`Step 1.1`。以前的“大步骤 / 小步骤”和 HLF 里的两层都按这个叫。
+- **最多两层**：只有 Stage 和 Step 两层，Step 下面不再分第 3 层（不写 `Step 1.1.1`）（2026-11-16 Human 定）；回答的 Diagram、信息汇总的步骤流程图、任务用时页、PR 描述的图和其他讲步骤的地方都一样。一个 Step 里还有好几步时，把它拆成几个 Step，或者升成一个 Stage。为什么：层级一多，Human 就看不出自己在哪一层。
+- **Step 要缩进**：Step 一定缩进在它的 Stage 下面，不和 Stage 对齐，一眼看得出谁是谁的 Step；Markdown 写法见 `Markdown Diagram 不用代码块`，网页写法见 `HTML_PAGE_RULES.md` 的 `步骤流程画成两列`。
 - **状态**：每个 Stage 和 Step 最前面写 `步骤状态 emoji` 里的 4 个之一：✅ 做完、🟡 在做、❌ 失败 / 卡住、⬜ 待做。
 - **每个 Step 都记时间**：开始一个 Step 时用工具拿一次时间，做完再拿一次，格式和 `⏱️ 用时` 一样：`YYYY-MM-DD 周X · 开始 HH:MM:SS · 结束 HH:MM:SS · 用了 N 分 M 秒`；Stage 写它所有 Steps 加起来的总用时。时间只用工具拿到的，不估、不猜；拿不到就写 `UNKNOWN`。
 - **等待也算进去**：用时从这个 Step 开始算到它结束，中间等的时间都算：等人做事（例如登录、审批、回复）、等自动化流程跑完（例如 Pipeline、备份任务、定时任务）、等外部条件（例如额度重置）。有等待的 Step 另写一行 `等了 N 分 M 秒，在等什么`。
 - **等得久就标 ⏰**：一个 Step 用了 5 分钟以上，或者占了它所在 Stage 一半以上的时间，就在这个 Step 上标 ⏰ 和在等什么（例如 `⏰ 等 Pipeline 跑完`）；⏰ 是红色的，Human 一眼就能看到时间花在哪。
+- **哪些页面记用时**：只有讲“一件在做的任务”的页面记 Stage / Steps 和用时：总索引里一个任务那一行链接的任务信息汇总，或者任务用时页。只记信息的页面（账号和服务、规则信息汇总、看不懂记录、给 Human 看的文档、面试页）不是任务，不画 Stage / Steps；在这些页面上做的修改本身是一个任务，用时记进任务用时页。
 - **记在哪**：任务的信息汇总里，用时写在点 Step 方块弹出的详情里，Stage 的总用时写在点 Stage 方块弹出的详情里；方块上只写 `用了 N 分 M 秒` 和 ⏰（写法照 `prompts/common-prompts/templates/STEP_FLOW_DIAGRAM_EXAMPLE.html`）。Chat 回答的 Diagram 在每个 Step 后面写 `用了 N 分 M 秒`。
 - **跨任务看用时**：每个 repo 一页 `info-summary/YYYY-MM-DD-任务用时-信息汇总-Summary.html`，一个任务一行：日期、任务、总用时、最久的那个 Step、链接；只有一个 PR、没有自己信息汇总的小任务，Stage / Steps 的用时就记在这一页里。
 - **做的时候就记**：每做完一个 Step 就更新，不等任务结束再补；暂停时写到暂停的那一刻。
