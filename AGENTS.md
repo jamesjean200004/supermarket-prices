@@ -365,6 +365,7 @@ Mandatory rules：
   - **Web Chat 改 Knowledge Hub**：Web Chat 修改 Knowledge Hub 的任何文件。
   - **Team plain-copy files**：Personal repo 里只是从 team copy 过来的普通文件，由 Codex / Claude Code 修改时；Human approve 后 AI 接着 merge、上线和验证，不再停（见 `开工确认卡` 的 `Team 快照文件`）。
 - **Team remote-linked `.git` files**：Team Git working tree / submodule / nested repo 中由 `.git` 连接 team remote 的文件，任何 AI 只能读取 / 分析，不能修改（细节：`prompts/common-prompts/rules/COMMON_RULES_SYNC.md`）。
+- **不碰 Team 系统**：AI 不打开、不登录、不调用公司 / Team 的任何系统，只读也不行：Team 的 Azure DevOps、公司 tenant 的 Azure Portal / `az` / API、Team Git remote（GitHub、Azure DevOps、Bitbucket）、Team 的 Terraform Cloud org、Jira、Confluence 等；浏览器、CLI、API、MCP 和子 agent 都算（2026-11-17 Human 定：AI 为了查 Environment 审批，自己去开了 team Azure DevOps）。要 Team 系统里的信息时，只用本地 repo 里的快照和 Human 给的截图、日志；还缺就告诉 Human 要看什么（写进 `➡️ 只有 Human 能做的事`，附直达链接），Human 看了告诉 AI，AI 当轮记进对应的信息汇总（账号和服务信息记进账号和服务页）。给 Human 的链接照 `能点就写成链接` 照常写，AI 自己不点开。
 - **UI mockup 先批准**：Personal Project 新增或实质改变 user-visible UI/UX 时，先给 Human 看当前完整 flow 的 mockup 并取得批准；Human 明确说该 UI 放手做时按 UI Standard 例外。Mockup 和 `开工确认卡` 一起发，开工前批准。Mockup 一旦批准，AI 立即在相同 scope 内完成 UI code、测试、修复、已授权交付及实际核查，不再把 PRD、技术方案、普通 review、实施步骤当作新的 Human approval gate。设计范围发生实质改变时重新提交对应 mockup。
 - **Latest canonical rules**：开始新 task 或恢复旧 Chat 前，无法 fetch、读取或验证 latest Common canonical rules 时，必须停止新的实质工作并报告 blocker，不得用 stale local copy、旧 prompt 或 Chat memory 继续（细节：`prompts/common-prompts/rules/COMMON_RULES_SYNC.md`）。
 - **AI 同意不等于 Human 批准**：Claude、Codex 或其他 AI 之间的同意，永远不能代替上面任何一个 Human gate（细节：`prompts/common-prompts/rules/MULTI_AI_ROLES.md`）。
